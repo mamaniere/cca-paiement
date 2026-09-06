@@ -1,72 +1,113 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CCA Paiement</title>
 
-  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<meta charset="UTF-8">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-    body {
-      margin: 0;
-      background: #f5f1e8;
-      color: #3d2b1f;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
+<title>CCA Paiement</title>
 
-    header {
-      background: #6b3f24;
-      color: white;
-      padding: 20px;
-    }
+<script
+  src="https://unpkg.com/html5-qrcode"
+  type="text/javascript">
+</script>
 
-    h1 {
-      margin: 0;
-      font-size: 28px;
-    }
+<style>
 
-    #message {
-      font-size: 22px;
-      font-weight: bold;
-      margin: 25px 15px 15px;
-    }
+*{
+  box-sizing:border-box;
+}
 
-    #scanner {
-      width: min(90vw, 500px);
-      margin: 0 auto;
-      background: black;
-      border-radius: 15px;
-      overflow: hidden;
-    }
+body{
+  margin:0;
+  background:#f5f1e8;
+  color:#3d2b1f;
+  font-family:Arial,sans-serif;
+  text-align:center;
+}
 
-    #result {
-      margin: 20px;
-      font-size: 18px;
-    }
+header{
+  background:#6b3f24;
+  color:white;
+  padding:20px;
+}
 
-    .ok {
-      color: #247a3b;
-      font-weight: bold;
-    }
+h1{
+  margin:0;
+  font-size:28px;
+}
 
-    .error {
-      color: #b3261e;
-      font-weight: bold;
-    }
-  </style>
+#message{
+  font-size:22px;
+  font-weight:bold;
+  margin:25px 15px 15px;
+}
+
+#scanner{
+  width:min(90vw,500px);
+  margin:0 auto;
+  background:black;
+  border-radius:15px;
+  overflow:hidden;
+}
+
+#result{
+  margin:20px;
+  font-size:18px;
+}
+
+.ok{
+  color:#247a3b;
+  font-weight:bold;
+}
+
+.error{
+  color:#b3261e;
+  font-weight:bold;
+}
+
+
+/* =========================
+   FENÊTRE DE PAIEMENT
+   ========================= */
+
+#paiement{
+  display:none;
+
+  position:fixed;
+  inset:0;
+
+  width:100%;
+  height:100%;
+
+  background:white;
+
+  z-index:1000;
+}
+
+#paiement iframe{
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+</style>
+
 </head>
+
 
 <body>
 
-  <header>
-    <h1>CCA PAIEMENT</h1>
-  </header>
+
+<header>
+  <h1>CCA PAIEMENT</h1>
+</header>
+
+
+<div id="scannerPage">
 
   <div id="message">
     Présentez votre QR code
@@ -78,158 +119,393 @@
     Initialisation de la caméra...
   </div>
 
+</div>
+
+
+<!-- =========================
+     PAGE DE PAIEMENT
+     ========================= -->
+
+<div id="paiement">
+
+  <iframe
+    id="paiementFrame"
+    allow="camera">
+  </iframe>
+
+</div>
+
+
 <script>
 
-  // --------------------------------------------------
-  // ADRESSE DE TON APPLICATION GOOGLE APPS SCRIPT
-  // --------------------------------------------------
 
- const APP_URL =
+/* =========================
+   CONFIGURATION
+   ========================= */
+
+const APP_URL =
   "https://script.google.com/macros/s/AKfycbyLwHdP9lETK6d0Y6u8_jhdBlNgKoJZCDxu2RvFKiJ6Ymqyi4GEfsE3UJf1P95GjignMg/exec";
 
-  let scanner = null;
-  let scanEnCours = false;
+
+let scanner = null;
+
+let scanEnCours = false;
 
 
-  // --------------------------------------------------
-  // EXTRAIRE L'ID DU MEMBRE DU QR CODE
-  // --------------------------------------------------
+/* =========================
+   EXTRAIRE L'ID DU QR
+   ========================= */
 
-  function trouverId(texte) {
+function trouverId(texte){
 
-    texte = String(texte || "").trim();
+  texte =
+    String(texte || "").trim();
 
-    // Cas 1 : QR contenant simplement CCA002
-    if (/^CCA\d+$/i.test(texte)) {
-      return texte.toUpperCase();
-    }
 
-    // Cas 2 : QR contenant l'URL de l'application
-    try {
+  /*
+   * QR contenant simplement :
+   * CCA002
+   */
 
-      const url = new URL(texte);
-      const id = url.searchParams.get("id");
+  if(/^CCA\d+$/i.test(texte)){
 
-      if (id && /^CCA\d+$/i.test(id)) {
-        return id.toUpperCase();
-      }
+    return texte.toUpperCase();
 
-    } catch (e) {
-      // Ce n'est pas une URL
-    }
-
-    return null;
   }
 
 
-  // --------------------------------------------------
-  // QR CODE DÉTECTÉ
-  // --------------------------------------------------
+  /*
+   * Au cas où le QR contient
+   * une URL avec ?id=CCA002
+   */
 
-  function qrDetecte(texte) {
+  try{
 
-    if (scanEnCours) {
+    const url =
+      new URL(texte);
+
+    const id =
+      url.searchParams.get("id");
+
+
+    if(
+      id &&
+      /^CCA\d+$/i.test(id)
+    ){
+
+      return id.toUpperCase();
+
+    }
+
+  }
+  catch(e){}
+
+
+  return null;
+
+}
+
+
+/* =========================
+   QR DÉTECTÉ
+   ========================= */
+
+function qrDetecte(texte){
+
+  if(scanEnCours){
+
+    return;
+
+  }
+
+
+  const id =
+    trouverId(texte);
+
+
+  if(!id){
+
+    document.getElementById(
+      "result"
+    ).innerHTML =
+      '<span class="error">' +
+      'QR code non reconnu' +
+      '</span>';
+
+    return;
+
+  }
+
+
+  scanEnCours = true;
+
+
+  document.getElementById(
+    "message"
+  ).textContent =
+    "Membre identifié";
+
+
+  document.getElementById(
+    "result"
+  ).innerHTML =
+    '<span class="ok">' +
+    'Ouverture du paiement : ' +
+    id +
+    '</span>';
+
+
+  /*
+   * On arrête la caméra
+   */
+
+  if(scanner){
+
+    scanner.stop()
+      .catch(function(){});
+
+  }
+
+
+  /*
+   * On affiche la page de paiement
+   */
+
+  setTimeout(function(){
+
+    ouvrirPaiement(id);
+
+  },500);
+
+}
+
+
+/* =========================
+   OUVRIR LE PAIEMENT
+   ========================= */
+
+function ouvrirPaiement(id){
+
+  const frame =
+    document.getElementById(
+      "paiementFrame"
+    );
+
+
+  frame.src =
+    APP_URL +
+    "?id=" +
+    encodeURIComponent(id);
+
+
+  document.getElementById(
+    "paiement"
+  ).style.display =
+    "block";
+
+
+  document.getElementById(
+    "scannerPage"
+  ).style.display =
+    "none";
+
+}
+
+
+/* =========================
+   RETOUR DU PAIEMENT
+   ========================= */
+
+window.addEventListener(
+  "message",
+  function(event){
+
+    /*
+     * On vérifie le message envoyé
+     * par Apps Script.
+     */
+
+    if(
+      !event.data ||
+      event.data.type !==
+      "CCA_PAIEMENT_TERMINE"
+    ){
+
       return;
+
     }
 
-    const id = trouverId(texte);
 
-    if (!id) {
+    /*
+     * On ferme la page de paiement.
+     */
 
-      document.getElementById("result").innerHTML =
-        '<span class="error">QR code non reconnu</span>';
+    document.getElementById(
+      "paiementFrame"
+    ).src =
+      "about:blank";
 
-      return;
+
+    document.getElementById(
+      "paiement"
+    ).style.display =
+      "none";
+
+
+    document.getElementById(
+      "scannerPage"
+    ).style.display =
+      "block";
+
+
+    /*
+     * Nouveau membre possible.
+     */
+
+    scanEnCours = false;
+
+
+    document.getElementById(
+      "message"
+    ).textContent =
+      "Présentez votre QR code";
+
+
+    document.getElementById(
+      "result"
+    ).textContent =
+      "Caméra en cours de démarrage...";
+
+
+    /*
+     * On redémarre la caméra avant.
+     */
+
+    setTimeout(
+      demarrerScanner,
+      300
+    );
+
+  }
+);
+
+
+/* =========================
+   ERREUR DE SCAN
+   ========================= */
+
+function erreurScan(errorMessage){
+
+  /*
+   * On ne fait rien.
+   */
+
+}
+
+
+/* =========================
+   DÉMARRER LE SCANNER
+   ========================= */
+
+function demarrerScanner(){
+
+  /*
+   * Sécurité :
+   * si un ancien scanner existe,
+   * on le détruit.
+   */
+
+  if(scanner){
+
+    try{
+
+      scanner.clear();
+
     }
+    catch(e){}
 
-    scanEnCours = true;
-
-    document.getElementById("message").textContent =
-      "Membre identifié";
-
-    document.getElementById("result").innerHTML =
-      '<span class="ok">Identification : ' + id + '</span>';
-
-    // Arrêt de la caméra
-    if (scanner) {
-      scanner.stop().catch(function() {});
-    }
-
-    // Ouverture de l'application de paiement
-    setTimeout(function() {
-
-      window.location.href =
-        APP_URL + "?id=" + encodeURIComponent(id);
-
-    }, 500);
   }
 
 
-  // --------------------------------------------------
-  // ERREURS DE SCAN
-  // --------------------------------------------------
-
-  function erreurScan(errorMessage) {
-    // On ne fait rien :
-    // l'absence de QR dans l'image est normale.
-  }
+  scanner =
+    new Html5Qrcode("scanner");
 
 
-  // --------------------------------------------------
-  // DÉMARRAGE DE LA CAMÉRA AVANT
-  // --------------------------------------------------
+  const config = {
 
-  function demarrerScanner() {
+    fps:10,
 
-    scanner = new Html5Qrcode("scanner");
+    qrbox:{
+      width:250,
+      height:250
+    }
 
-    const config = {
-      fps: 10,
-      qrbox: {
-        width: 250,
-        height: 250
-      }
-    };
-
-    scanner.start(
-      {
-        facingMode: "user"
-      },
-      config,
-      qrDetecte,
-      erreurScan
-    )
-    .then(function() {
-
-      document.getElementById("result").innerHTML =
-        '<span class="ok">Caméra avant active</span>';
-
-    })
-    .catch(function(error) {
-
-      document.getElementById("result").innerHTML =
-        '<span class="error">' +
-        "Impossible d'accéder à la caméra.<br>" +
-        error +
-        "</span>";
-
-    });
-  }
+  };
 
 
-  // --------------------------------------------------
-  // LANCEMENT
-  // --------------------------------------------------
+  scanner.start(
 
-  window.addEventListener("load", function() {
+    /*
+     * CAMÉRA AVANT
+     */
 
-    setTimeout(function() {
-      demarrerScanner();
-    }, 500);
+    {
+      facingMode:"user"
+    },
+
+    config,
+
+    qrDetecte,
+
+    erreurScan
+
+  )
+
+  .then(function(){
+
+    document.getElementById(
+      "result"
+    ).innerHTML =
+      '<span class="ok">' +
+      'Caméra avant active' +
+      '</span>';
+
+  })
+
+  .catch(function(error){
+
+    document.getElementById(
+      "result"
+    ).innerHTML =
+      '<span class="error">' +
+      "Impossible d'accéder à la caméra.<br>" +
+      error +
+      "</span>";
 
   });
+
+}
+
+
+/* =========================
+   DÉMARRAGE
+   ========================= */
+
+window.addEventListener(
+  "load",
+  function(){
+
+    setTimeout(
+      demarrerScanner,
+      500
+    );
+
+  }
+);
+
 
 </script>
 
 </body>
+
 </html>
