@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CCA Paiement</title>
+
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f5f1e8;
+      color: #3d2b1f;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    header {
+      background: #6b3f24;
+      color: white;
+      padding: 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    #message {
+      font-size: 22px;
+      font-weight: bold;
+      margin: 25px 15px 15px;
+    }
+
+    #scanner {
+      width: min(90vw, 500px);
+      margin: 0 auto;
+      background: black;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    #result {
+      margin: 20px;
+      font-size: 18px;
+    }
+
+    .ok {
+      color: #247a3b;
+      font-weight: bold;
+    }
+
+    .error {
+      color: #b3261e;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>CCA PAIEMENT</h1>
+  </header>
+
+  <div id="message">
+    Présentez votre QR code
+  </div>
+
+  <div id="scanner"></div>
+
+  <div id="result">
+    Initialisation de la caméra...
+  </div>
+
+<script>
+
+  // --------------------------------------------------
+  // ADRESSE DE TON APPLICATION GOOGLE APPS SCRIPT
+  // --------------------------------------------------
+
+  const APP_URL =
+    "https://script.google.com/macros/s/AKfycbz7BkyBWRwTuehAdIScq7GKhqq85Mn27AFuRISCHXpI4PGMqPsnTDvw-JmMUES2SIZ7WQ/exec";
+
+
+  let scanner = null;
+  let scanEnCours = false;
+
+
+  // --------------------------------------------------
+  // EXTRAIRE L'ID DU MEMBRE DU QR CODE
+  // --------------------------------------------------
+
+  function trouverId(texte) {
+
+    texte = String(texte || "").trim();
+
+    // Cas 1 : QR contenant simplement CCA002
+    if (/^CCA\d+$/i.test(texte)) {
+      return texte.toUpperCase();
+    }
+
+    // Cas 2 : QR contenant l'URL de l'application
+    try {
+
+      const url = new URL(texte);
+      const id = url.searchParams.get("id");
+
+      if (id && /^CCA\d+$/i.test(id)) {
+        return id.toUpperCase();
+      }
+
+    } catch (e) {
+      // Ce n'est pas une URL
+    }
+
+    return null;
+  }
+
+
+  // --------------------------------------------------
+  // QR CODE DÉTECTÉ
+  // --------------------------------------------------
+
+  function qrDetecte(texte) {
+
+    if (scanEnCours) {
+      return;
+    }
+
+    const id = trouverId(texte);
+
+    if (!id) {
+
+      document.getElementById("result").innerHTML =
+        '<span class="error">QR code non reconnu</span>';
+
+      return;
+    }
+
+    scanEnCours = true;
+
+    document.getElementById("message").textContent =
+      "Membre identifié";
+
+    document.getElementById("result").innerHTML =
+      '<span class="ok">Identification : ' + id + '</span>';
+
+    // Arrêt de la caméra
+    if (scanner) {
+      scanner.stop().catch(function() {});
+    }
+
+    // Ouverture de l'application de paiement
+    setTimeout(function() {
+
+      window.location.href =
+        APP_URL + "?id=" + encodeURIComponent(id);
+
+    }, 500);
+  }
+
+
+  // --------------------------------------------------
+  // ERREURS DE SCAN
+  // --------------------------------------------------
+
+  function erreurScan(errorMessage) {
+    // On ne fait rien :
+    // l'absence de QR dans l'image est normale.
+  }
+
+
+  // --------------------------------------------------
+  // DÉMARRAGE DE LA CAMÉRA AVANT
+  // --------------------------------------------------
+
+  function demarrerScanner() {
+
+    scanner = new Html5Qrcode("scanner");
+
+    const config = {
+      fps: 10,
+      qrbox: {
+        width: 250,
+        height: 250
+      }
+    };
+
+    scanner.start(
+      {
+        facingMode: "user"
+      },
+      config,
+      qrDetecte,
+      erreurScan
+    )
+    .then(function() {
+
+      document.getElementById("result").innerHTML =
+        '<span class="ok">Caméra avant active</span>';
+
+    })
+    .catch(function(error) {
+
+      document.getElementById("result").innerHTML =
+        '<span class="error">' +
+        "Impossible d'accéder à la caméra.<br>" +
+        error +
+        "</span>";
+
+    });
+  }
+
+
+  // --------------------------------------------------
+  // LANCEMENT
+  // --------------------------------------------------
+
+  window.addEventListener("load", function() {
+
+    setTimeout(function() {
+      demarrerScanner();
+    }, 500);
+
+  });
+
+</script>
+
+</body>
+</html>
