@@ -229,14 +229,13 @@ function qrDetecte(texte){
 
   setTimeout(function(){
 
-    window.open(
-      APP_URL +
-      "?id=" +
-      encodeURIComponent(id),
-      "_blank"
-    );
+  window.location.replace(
+    APP_URL +
+    "?id=" +
+    encodeURIComponent(id)
+  );
 
-  },500);
+},500);
 
 }
 
