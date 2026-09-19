@@ -1206,6 +1206,25 @@ window.addEventListener(
   "load",
   function() {
 
+    const rechargeId =
+      localStorage.getItem("ccaRechargeId");
+
+    if (rechargeId) {
+
+      localStorage.removeItem("ccaRechargeId");
+
+      document.getElementById(
+        "scannerResult"
+      ).innerHTML =
+        '<span class="ok">Recharge en cours de vérification...</span>';
+
+      verifierRechargeApresRetour(
+        rechargeId
+      );
+
+      return;
+    }
+
     setTimeout(
       demarrerScanner,
       500
