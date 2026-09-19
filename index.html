@@ -1213,7 +1213,22 @@ window.addEventListener(
 
   }
 );
+function rechargerCompte() {
 
+  if (!membre || !membre.id) {
+    return;
+  }
+
+  // On mémorise le membre avant de partir sur HelloAsso
+  localStorage.setItem(
+    "ccaRechargeId",
+    membre.id
+  );
+
+  // Ouverture du formulaire HelloAsso
+  window.location.href =
+    "https://www.helloasso.com/associations/association-cercle-des-chefs-d-atelier/boutiques/je-regle-mon-billard-et-mes-boissons";
+}
 </script>
 
 </body>
