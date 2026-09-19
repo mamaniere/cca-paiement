@@ -380,6 +380,7 @@ footer{
         <div class="balance-label">Solde</div>
         <div id="memberBalance" class="balance-value"></div>
       </div>
+      
 <button id="rechargeButton" onclick="rechargerCompte()">
   💳 RECHARGER MON COMPTE
 </button>
@@ -1247,6 +1248,117 @@ function rechargerCompte() {
   // Ouverture du formulaire HelloAsso
   window.location.href =
     "https://www.helloasso.com/associations/association-cercle-des-chefs-d-atelier/boutiques/je-regle-mon-billard-et-mes-boissons";
+}
+let verificationRechargeTimer = null;
+let verificationRechargeDebut = null;
+
+function verifierRechargeApresRetour(ccaId) {
+
+  if (verificationRechargeTimer) {
+    clearTimeout(verificationRechargeTimer);
+  }
+
+  verificationRechargeDebut = Date.now();
+
+  document.getElementById("scannerResult").innerHTML =
+    '<span class="ok">Vérification de votre recharge...</span>';
+
+  verifierRechargeUneFois(ccaId);
+}
+
+
+function verifierRechargeUneFois(ccaId) {
+
+  appelerApi(
+    {
+      api: "checkRecharge",
+      id: ccaId
+    },
+    function(resultat) {
+
+      // Une nouvelle recharge a réellement été détectée
+      if (
+        resultat &&
+        resultat.status === "OK" &&
+        resultat.recharge === true
+      ) {
+
+        document.getElementById("scannerResult").innerHTML =
+          '<span class="ok">' +
+          "✓ Recharge reçue !<br>" +
+          "Nouveau solde : " +
+          euro(resultat.solde) +
+          "</span>";
+
+        setTimeout(
+          function() {
+            demarrerScanner();
+          },
+          2500
+        );
+
+        return;
+      }
+
+      // Une erreur serveur : on arrête plutôt que
+      // de multiplier les appels à HelloAsso
+      if (
+        !resultat ||
+        resultat.status !== "OK"
+      ) {
+
+        document.getElementById("scannerResult").innerHTML =
+          '<span class="error">' +
+          "Vérification momentanément indisponible.<br>" +
+          "Veuillez réessayer dans quelques instants." +
+          "</span>";
+
+        setTimeout(
+          function() {
+            demarrerScanner();
+          },
+          4000
+        );
+
+        return;
+      }
+
+      // Pas encore de recharge :
+      // on vérifie à nouveau dans 5 secondes.
+      if (
+        Date.now() - verificationRechargeDebut < 30000
+      ) {
+
+        document.getElementById("scannerResult").innerHTML =
+          '<span class="ok">' +
+          "En attente de la confirmation du paiement..." +
+          "</span>";
+
+        verificationRechargeTimer = setTimeout(
+          function() {
+            verifierRechargeUneFois(ccaId);
+          },
+          5000
+        );
+
+        return;
+      }
+
+      // Après 30 secondes, on arrête les vérifications.
+      document.getElementById("scannerResult").innerHTML =
+        '<span class="error">' +
+        "La recharge n'est pas encore confirmée.<br>" +
+        "Elle peut être créditée dans quelques instants." +
+        "</span>";
+
+      setTimeout(
+        function() {
+          demarrerScanner();
+        },
+        4000
+      );
+    }
+  );
 }
 </script>
 
