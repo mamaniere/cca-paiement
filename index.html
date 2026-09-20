@@ -300,7 +300,182 @@ main {
 }
 
 </style>
+<style id="cca-green-design">
+:root{
+  --cca-vert:#1f5a3a;
+  --cca-vert-fonce:#17492e;
+  --cca-vert-clair:#dcefd3;
+  --cca-creme:#f5f1e8;
+  --cca-blanc:#fffdf8;
+  --cca-bord:#d8d1c5;
+}
 
+body{
+  background:var(--cca-creme);
+  color:#2e2a25;
+}
+
+header{
+  background:var(--cca-vert);
+  color:#fff;
+  padding:18px 16px;
+  border-bottom:5px solid var(--cca-vert-fonce);
+  box-shadow:0 3px 10px rgba(0,0,0,.14);
+}
+
+header h1{
+  font-size:32px;
+  letter-spacing:2px;
+}
+
+main{
+  max-width:1000px;
+  padding:18px;
+}
+
+#scannerPage{
+  background:var(--cca-blanc);
+  border:1px solid var(--cca-bord);
+  border-radius:18px;
+  padding:22px;
+  box-shadow:0 3px 12px rgba(70,45,25,.09);
+}
+
+#message{
+  color:var(--cca-vert);
+  font-size:28px;
+  margin:8px 10px 20px;
+}
+
+#scanner{
+  border:5px solid var(--cca-vert);
+  border-radius:16px;
+  box-shadow:0 4px 12px rgba(0,0,0,.12);
+}
+
+#scannerResult{
+  margin:16px;
+  color:#555;
+}
+
+.ok{
+  color:var(--cca-vert);
+}
+
+.member{
+  background:var(--cca-vert-clair);
+  color:var(--cca-vert-fonce);
+  border:2px solid #9dc18f;
+  border-radius:15px;
+  padding:18px 20px;
+  box-shadow:0 3px 10px rgba(70,45,25,.09);
+}
+
+.memberName{
+  color:var(--cca-vert-fonce);
+  font-size:29px;
+}
+
+.memberBalance{
+  color:var(--cca-vert);
+}
+
+.sectionTitle{
+  background:var(--cca-vert);
+  color:#fff;
+  border-radius:11px;
+  padding:11px;
+  margin:18px 0 10px;
+  font-size:21px;
+  box-shadow:0 2px 6px rgba(0,0,0,.10);
+}
+
+.product{
+  background:var(--cca-blanc);
+  border:2px solid var(--cca-bord);
+  color:#2e2a25;
+  border-radius:14px;
+  box-shadow:0 3px 8px rgba(70,45,25,.09);
+  transition:transform .1s,border-color .1s,background .1s;
+}
+
+.product:hover{
+  border-color:#9dc18f;
+  background:#f8fcf5;
+}
+
+.productName{
+  color:#26362c;
+  font-size:19px;
+}
+
+.productPrice{
+  color:var(--cca-vert);
+  font-weight:900;
+}
+
+.billiard{
+  background:var(--cca-vert-clair);
+  border:2px solid #74a36e;
+  color:var(--cca-vert-fonce);
+}
+
+.cart{
+  background:var(--cca-blanc);
+  border:2px solid var(--cca-bord);
+  box-shadow:0 3px 10px rgba(70,45,25,.09);
+}
+
+.cart h2{
+  color:var(--cca-vert);
+}
+
+.cartLine{
+  border-bottom-color:#e1ddd5;
+}
+
+.total{
+  color:var(--cca-vert-fonce);
+  background:var(--cca-vert-clair);
+}
+
+.payButton{
+  background:var(--cca-vert);
+  border:2px solid var(--cca-vert);
+}
+
+.payButton:hover{
+  background:var(--cca-vert-fonce);
+}
+
+.cancelButton{
+  background:var(--cca-blanc);
+  color:var(--cca-vert);
+  border:2px solid #9dc18f;
+}
+
+#paymentMessage{
+  color:var(--cca-vert-fonce);
+}
+
+@media (max-width:600px){
+  main{
+    padding:10px;
+  }
+
+  #scannerPage{
+    padding:14px;
+  }
+
+  #message{
+    font-size:24px;
+  }
+
+  header h1{
+    font-size:28px;
+  }
+}
+</style>
 </head>
 
 
