@@ -261,6 +261,21 @@ main{max-width:1180px;margin:auto;padding:10px}
   cursor:pointer;
 }
 .payButton{background:var(--vert);color:white}
+  .member{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto auto;
+  align-items:center;
+  gap:12px;
+}
+
+.member > div:first-child{
+  min-width:0;
+}
+
+.balance{
+  white-space:nowrap;
+  text-align:right;
+}
   #rechargeButton{
   width:auto;
   margin:0;
