@@ -4,10 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CCA Paiement</title>
+
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
 <style>
 *{box-sizing:border-box}
+
 :root{
   --vert:#1f5a3a;
   --vert-fonce:#17492e;
@@ -18,13 +20,23 @@
   --bord:#ddd5c8;
   --texte:#2e2a25;
 }
-html,body{margin:0;min-height:100%;background:var(--creme);color:var(--texte);font-family:Arial,sans-serif}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  background:var(--creme);
+  color:var(--texte);
+  font-family:Arial,sans-serif
+}
+
 body{text-align:center}
+
 header{
   background:var(--blanc);
   padding:8px 16px 7px;
-  border-bottom:4px solid var(--vert);
+  border-bottom:4px solid var(--vert)
 }
+
 .header-inner{
   max-width:1180px;
   margin:auto;
@@ -32,144 +44,151 @@ header{
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:55px;
+  gap:55px
 }
-.logo-block{display:flex;align-items:center}
+
 .logo-mark{
   color:var(--vert);
   font-size:42px;
-  line-height:.85;
   font-weight:900;
-  letter-spacing:-3px;
-  white-space:nowrap;
+  letter-spacing:-3px
 }
-.logo-dots{font-size:21px;letter-spacing:-6px;color:var(--marron);vertical-align:top}
+
+.logo-dots{
+  color:var(--marron);
+  font-size:21px;
+  letter-spacing:-6px
+}
+
 .logo-sub{
   color:var(--marron);
   font-size:12px;
   font-weight:bold;
   line-height:1.25;
-  margin-top:5px;
+  margin-top:5px
 }
+
 .title-block{text-align:left}
+
 .title-block h1{
   margin:0;
   color:var(--vert);
   font-size:34px;
-  letter-spacing:1px;
+  letter-spacing:1px
 }
+
 .title-block h1 span{color:var(--marron)}
+
 .title-block div{
   margin-top:2px;
   color:var(--vert);
   font-size:14px;
   font-weight:bold;
-  letter-spacing:5px;
+  letter-spacing:5px
 }
-main{max-width:1180px;margin:auto;padding:10px}
+
+main{
+  max-width:1180px;
+  margin:auto;
+  padding:10px
+}
+
 .panel{
   background:rgba(255,253,248,.95);
   border:1px solid var(--bord);
   border-radius:17px;
-  box-shadow:0 2px 8px rgba(70,45,25,.08);
+  box-shadow:0 2px 8px rgba(70,45,25,.08)
 }
 
 /* SCANNER */
+
 #scannerPage{display:block}
+
 .scanner-panel{
   max-width:650px;
   margin:20px auto;
-  padding:22px;
+  padding:22px
 }
+
 .scanner-title{
   color:var(--vert);
   font-size:32px;
   line-height:1.05;
   font-weight:900;
-  margin-bottom:8px;
+  margin-bottom:8px
 }
-.scanner-sub{font-size:18px;margin-bottom:15px}
+
+.scanner-sub{
+  font-size:18px;
+  margin-bottom:15px
+}
+
 #scanner{
   width:min(90vw,560px);
   margin:auto;
   background:#111;
   border-radius:15px;
-  overflow:hidden;
+  overflow:hidden
 }
-#scannerResult{margin:14px;font-size:17px}
-.ok{color:var(--vert);font-weight:bold}
-.error{color:#b3261e;font-weight:bold}
+
+#scannerResult{
+  margin:14px;
+  font-size:17px
+}
+
+.ok{
+  color:var(--vert);
+  font-weight:bold
+}
+
+.error{
+  color:#b3261e;
+  font-weight:bold
+}
 
 /* PAIEMENT */
+
 #paymentPage{display:none}
+
 .payment-panel{padding:12px}
+
 .member{
   background:var(--vert-clair);
   color:var(--vert-fonce);
   border-radius:13px;
   padding:10px 14px;
   display:grid;
-  grid-template-columns:minmax(0,1fr) auto auto;
+  grid-template-columns:minmax(0,1fr) auto;
   align-items:center;
   gap:12px;
   text-align:left;
-  margin-bottom:9px;
-}
-
-.member > div:first-child{
-  min-width:0;
+  margin-bottom:9px
 }
 
 .memberName{
   font-size:25px;
   font-weight:900;
-  white-space:nowrap;
+  white-space:nowrap
 }
 
 .memberId{
   font-size:15px;
-  margin-top:3px;
+  margin-top:3px
 }
 
 .balance{
   text-align:right;
-  white-space:nowrap;
+  white-space:nowrap
 }
 
 .balance-label{
-  font-size:14px;
+  font-size:14px
 }
 
 .balance-value{
   font-size:25px;
-  font-weight:900;
-  white-space:nowrap;
+  font-weight:900
 }
-
-#rechargeButton{
-  width:260px !important;
-  height:48px;
-  margin:0 !important;
-  padding:8px 12px;
-  border-radius:10px;
-  border:2px solid var(--marron);
-  background:var(--marron);
-  color:white;
-  font-size:14px;
-  font-weight:900;
-  cursor:pointer;
-  white-space:nowrap;
-  flex-shrink:0;
-}
-
-#rechargeButton:active{
-  transform:scale(.98);
-}
-.memberName{font-size:25px;font-weight:900}
-.memberId{font-size:15px;margin-top:3px}
-.balance{text-align:right}
-.balance-label{font-size:15px}
-.balance-value{font-size:27px;font-weight:900}
 
 .section-title{
   border-radius:10px;
@@ -178,16 +197,23 @@ main{max-width:1180px;margin:auto;padding:10px}
   color:white;
   font-size:20px;
   font-weight:900;
-  text-align:left;
+  text-align:left
 }
-.drinks-title,.cart-title{background:var(--marron)}
-.billard-title{background:var(--vert)}
+
+.drinks-title,.cart-title{
+  background:var(--marron)
+}
+
+.billard-title{
+  background:var(--vert)
+}
 
 .products{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:8px;
+  gap:8px
 }
+
 .product{
   background:var(--blanc);
   border:2px solid var(--bord);
@@ -197,43 +223,52 @@ main{max-width:1180px;margin:auto;padding:10px}
   color:var(--texte);
   box-shadow:0 2px 5px rgba(70,45,25,.08);
   cursor:pointer;
-  font-family:Arial,sans-serif;
+  font-family:Arial,sans-serif
 }
-.product:active{transform:scale(.97)}
+
+.product:active,
+.billiard:active{
+  transform:scale(.97)
+}
+
 .productIcon{
   height:48px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:37px;
-  margin-bottom:2px;
+  font-size:37px
 }
-.productName{font-size:16px;font-weight:800;line-height:1.05}
-.productPrice{font-size:16px;font-weight:900;color:var(--vert);margin-top:5px}
+
+.productName{
+  font-size:16px;
+  font-weight:800;
+  line-height:1.05
+}
+
+.productPrice{
+  font-size:16px;
+  font-weight:900;
+  color:var(--vert);
+  margin-top:5px
+}
 
 .billiard{
   width:100%;
-  min-height:103px;
+  min-height:110px;
   background:var(--blanc);
   border:2px solid var(--bord);
   border-radius:13px;
-  padding:7px 4px;
   color:var(--texte);
   box-shadow:0 2px 5px rgba(70,45,25,.08);
   cursor:pointer;
-  font-family:Arial,sans-serif;
   font-size:21px;
-  font-weight:900;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:5px;
+  font-weight:900
 }
 
 .billiard-icon{
+  display:block;
   font-size:40px;
-  margin:0;
+  margin-bottom:4px
 }
 
 .cart{
@@ -241,8 +276,9 @@ main{max-width:1180px;margin:auto;padding:10px}
   border:2px solid var(--bord);
   border-radius:13px;
   overflow:hidden;
-  margin-top:9px;
+  margin-top:9px
 }
+
 .cart-head{
   background:var(--marron);
   color:white;
@@ -251,17 +287,22 @@ main{max-width:1180px;margin:auto;padding:10px}
   justify-content:space-between;
   align-items:center;
   font-size:20px;
-  font-weight:900;
+  font-weight:900
 }
+
 .clear{
   border:0;
   background:transparent;
   color:white;
   font-size:16px;
   font-weight:bold;
-  cursor:pointer;
+  cursor:pointer
 }
-.cartContent{padding:0 10px}
+
+.cartContent{
+  padding:0 10px
+}
+
 .cartLine{
   display:grid;
   grid-template-columns:1fr 32px 42px 70px 32px;
@@ -269,22 +310,50 @@ main{max-width:1180px;margin:auto;padding:10px}
   align-items:center;
   border-bottom:1px solid #e5dfd5;
   padding:6px 0;
-  font-size:16px;
+  font-size:16px
 }
-.cartName{text-align:left;font-weight:bold}
-.cartQty{text-align:center;font-weight:bold}
-.cartPrice{text-align:right;font-weight:bold}
+
+.cartName{
+  text-align:left;
+  font-weight:bold
+}
+
+.cartQty{
+  text-align:center;
+  font-weight:bold
+}
+
+.cartPrice{
+  text-align:right;
+  font-weight:bold
+}
+
 .qty-btn,.remove{
   border:0;
   border-radius:50%;
   width:29px;
   height:29px;
   cursor:pointer;
-  font-weight:bold;
+  font-weight:bold
 }
-.qty-btn{background:var(--vert-clair);color:var(--vert);font-size:19px}
-.remove{background:#eee;color:#333;font-size:18px}
-.cart-empty{padding:12px;color:#777}
+
+.qty-btn{
+  background:var(--vert-clair);
+  color:var(--vert);
+  font-size:19px
+}
+
+.remove{
+  background:#eee;
+  color:#333;
+  font-size:18px
+}
+
+.cart-empty{
+  padding:12px;
+  color:#777
+}
+
 .total{
   display:flex;
   justify-content:space-between;
@@ -295,89 +364,71 @@ main{max-width:1180px;margin:auto;padding:10px}
   padding:8px 13px;
   border-radius:10px;
   font-size:23px;
-  font-weight:900;
+  font-weight:900
 }
+
 .actions{
   display:grid;
   grid-template-columns:2fr 1fr;
   gap:9px;
-  padding:0 10px 10px;
+  padding:0 10px 10px
 }
-.payButton,.cancelButton{
+
+.payButton,
+.cancelButton{
   border-radius:12px;
   padding:14px;
   border:2px solid var(--vert);
   font-size:19px;
   font-weight:900;
-  cursor:pointer;
-}
-.payButton{background:var(--vert);color:white}
-  .member{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) auto auto;
-  align-items:center;
-  gap:12px;
+  cursor:pointer
 }
 
-.member > div:first-child{
-  min-width:0;
+.payButton{
+  background:var(--vert);
+  color:white
 }
 
-.balance{
-  white-space:nowrap;
-  text-align:right;
-}
-  #rechargeButton{
-  width:auto;
-  margin:0;
-  padding:10px 16px;
-  border-radius:10px;
-  border:2px solid var(--marron);
-  background:var(--marron);
-  color:white;
-  font-size:15px;
-  font-weight:900;
-  cursor:pointer;
-  white-space:nowrap;
-  flex-shrink:0;
+.payButton:disabled{
+  background:#aaa;
+  border-color:#aaa
 }
 
-#rechargeButton:active{
-  transform:scale(.98);
-}
-.payButton:disabled{background:#aaa;border-color:#aaa}
-.cancelButton{background:var(--blanc);color:var(--vert)}
-#paymentMessage{padding:0 10px 8px;font-size:17px;font-weight:bold}
-footer{
-  padding:5px 8px 9px;
-  font-size:14px;
-  letter-spacing:1px;
-  color:#4b433b;
+.cancelButton{
+  background:var(--blanc);
+  color:var(--vert)
 }
 
-/* écran tablette */
-@media(min-width:700px){
-  main{padding-top:8px}
+#paymentMessage{
+  padding:0 10px 8px;
+  font-size:17px;
+  font-weight:bold
 }
 
-/* petit écran */
 @media(max-width:600px){
-  .header-inner{gap:10px;justify-content:space-between}
+
+  .header-inner{
+    gap:10px;
+    justify-content:space-between
+  }
+
   .logo-mark{font-size:30px}
   .logo-sub{display:none}
+
   .title-block h1{font-size:23px}
-  .title-block div{font-size:10px;letter-spacing:2px}
-  .products{grid-template-columns:repeat(2,1fr)}
+
+  .title-block div{
+    font-size:10px;
+    letter-spacing:2px
+  }
+
+  .products{
+    grid-template-columns:repeat(2,1fr)
+  }
+
   .memberName{font-size:20px}
   .balance-value{font-size:22px}
 }
-
-/* BILLARD : même hauteur que les cases boissons */
-#billardBtn {
-  min-height: 110px;
-  height: 110px;
-}
-
 </style>
 </head>
 
@@ -385,13 +436,15 @@ footer{
 
 <header>
   <div class="header-inner">
-    <div class="logo-block">
-      <div>
-        <div class="logo-mark">CCA <span class="logo-dots">●●●</span></div>
-        <div class="logo-sub">
-          Cercle des chefs d’atelier<br>
-          Billard • Carrom • Échecs
-        </div>
+
+    <div>
+      <div class="logo-mark">
+        CCA <span class="logo-dots">●●●</span>
+      </div>
+
+      <div class="logo-sub">
+        Cercle des chefs d’atelier<br>
+        Billard • Carrom • Échecs
       </div>
     </div>
 
@@ -399,14 +452,12 @@ footer{
       <h1>CCA <span>PAIEMENT</span></h1>
       <div>BOISSONS &amp; BILLARD</div>
     </div>
+
   </div>
 </header>
 
 <main>
 
-<!-- =========================
-     ÉTAPE 1 : SCANNER
-========================== -->
 <section id="scannerPage">
 
   <div class="panel scanner-panel">
@@ -429,10 +480,6 @@ footer{
 
 </section>
 
-
-<!-- =========================
-     ÉTAPE 2 : PAIEMENT
-========================== -->
 <section id="paymentPage">
 
   <div class="panel payment-panel">
@@ -448,90 +495,103 @@ footer{
         <div class="balance-label">Solde</div>
         <div id="memberBalance" class="balance-value"></div>
       </div>
-      
-<button id="rechargeButton" onclick="rechargerCompte()">
-  💳 RECHARGER MON COMPTE
-</button>
-    </div>
 
+    </div>
 
     <div class="section-title drinks-title">
       🍷 BOISSONS
     </div>
 
-
     <div class="products">
 
-      <button class="product" onclick="ajouterProduit('Café',0.50)">
+      <button class="product"
+              onclick="ajouterProduit('Café',0.50)">
         <div class="productIcon">☕</div>
         <div class="productName">Café</div>
         <div class="productPrice">0,50 €</div>
       </button>
 
-      <button class="product" onclick="ajouterProduit('Thé',0.50)">
+      <button class="product"
+              onclick="ajouterProduit('Thé',0.50)">
         <div class="productIcon">🍵</div>
         <div class="productName">Thé</div>
         <div class="productPrice">0,50 €</div>
       </button>
 
-      <button class="product" onclick="ajouterProduit('Eau plate',0.50)">
+      <button class="product"
+              onclick="ajouterProduit('Eau plate',0.50)">
         <div class="productIcon">💧</div>
         <div class="productName">Eau plate</div>
         <div class="productPrice">0,50 €</div>
       </button>
 
-      <button class="product" onclick="ajouterProduit('Eau gazeuse',0.50)">
+      <button class="product"
+              onclick="ajouterProduit('Eau gazeuse',0.50)">
         <div class="productIcon">💦</div>
         <div class="productName">Eau gazeuse</div>
         <div class="productPrice">0,50 €</div>
       </button>
 
-      <button class="product" onclick="ajouterProduit('Leffe 50 cl',2.50)">
+      <button class="product"
+              onclick="ajouterProduit('Leffe 50 cl',2.50)">
         <div class="productIcon">🍺</div>
         <div class="productName">Leffe 50 cl</div>
         <div class="productPrice">2,50 €</div>
       </button>
 
-      <button class="product" onclick="ajouterProduit('La Soyeuse 75 cl',9.00)">
+      <button class="product"
+              onclick="ajouterProduit('La Soyeuse 75 cl',9.00)">
         <div class="productIcon">🍾</div>
-        <div class="productName">La Soyeuse<br>75 cl</div>
+        <div class="productName">
+          La Soyeuse<br>75 cl
+        </div>
         <div class="productPrice">9,00 €</div>
       </button>
 
-      <button class="product" onclick="ajouterProduit('Vin verre',1.00)">
+      <button class="product"
+              onclick="ajouterProduit('Vin verre',1.00)">
         <div class="productIcon">🍷</div>
         <div class="productName">Vin verre</div>
         <div class="productPrice">1,00 €</div>
       </button>
 
-      <button class="product" onclick="ajouterProduit('Vin carafe 50 cl',4.00)">
+      <button class="product"
+              onclick="ajouterProduit('Vin carafe 50 cl',4.00)">
         <div class="productIcon">🍷</div>
-        <div class="productName">Vin carafe<br>50 cl</div>
+        <div class="productName">
+          Vin carafe<br>50 cl
+        </div>
         <div class="productPrice">4,00 €</div>
       </button>
 
     </div>
 
-
     <div class="section-title billard-title">
       🎱 BILLARD
     </div>
 
-    <button class="billiard" onclick="ajouterProduit('Billard',3.00)">
+    <button class="billiard"
+            onclick="ajouterProduit('Billard',3.00)">
       <span class="billiard-icon">🎱</span>
       Billard — 3,00 €
     </button>
-
 
     <div class="cart">
 
       <div class="cart-head">
         <span>🛒 PANIER</span>
-        <button class="clear" onclick="viderPanier()">🗑 Vider</button>
+
+        <button class="clear"
+                onclick="viderPanier()">
+          🗑 Vider
+        </button>
       </div>
 
-      <div id="cartContent" class="cartContent">
-        <div class="cart-empty">Aucun article</div>
+      <div id="cartContent"
+           class="cartContent">
+        <div class="cart-empty">
+          Aucun article
+        </div>
       </div>
 
       <div class="total">
@@ -540,13 +600,19 @@ footer{
       </div>
 
       <div class="actions">
-        <button id="payButton" class="payButton" onclick="payer()" disabled>
+
+        <button id="payButton"
+                class="payButton"
+                onclick="payer()"
+                disabled>
           ✓ VALIDER LE PAIEMENT
         </button>
 
-        <button class="cancelButton" onclick="annulerPaiement()">
+        <button class="cancelButton"
+                onclick="annulerPaiement()">
           ✕ ANNULER
         </button>
+
       </div>
 
       <div id="paymentMessage"></div>
@@ -558,14 +624,10 @@ footer{
 </section>
 
 </main>
-
-
-
-
 <script>
 
 const APP_URL =
-  "https://script.google.com/macros/s/AKfycbyLwHdP9lETK6d0Y6u8_jhdBlNgKoJZCDxu2RvFKiJ6Ymqyi4GEfsE3UJf1P95GjignMg/exec";
+  "https://script.google.com/macros/s/AKfycbyLwHdP9lETK6d0Y6u8_jhdBlNgKOJZCDxu2RvFKiJ6Ymqyi4GEfsE3UJf1P95GjignMg/exec";
 
 let scanner = null;
 let scanEnCours = false;
@@ -573,12 +635,20 @@ let membre = null;
 let panier = [];
 
 
+// =====================================================
+// FORMATAGE EURO
+// =====================================================
+
 function euro(montant) {
   return Number(montant)
     .toFixed(2)
     .replace(".", ",") + " €";
 }
 
+
+// =====================================================
+// APPEL API JSONP
+// =====================================================
 
 function appelerApi(parametres, callback) {
 
@@ -589,83 +659,97 @@ function appelerApi(parametres, callback) {
     Math.floor(Math.random() * 100000);
 
   let termine = false;
-  let script = document.createElement("script");
+
+  const script =
+    document.createElement("script");
+
   let timeout;
 
-  window[nomCallback] = function(data) {
 
-    if (termine) return;
+  window[nomCallback] =
+    function(data) {
 
-    termine = true;
+      if (termine) return;
 
-    delete window[nomCallback];
+      termine = true;
 
-    if (script.parentNode) {
-      script.parentNode.removeChild(script);
-    }
+      delete window[nomCallback];
 
-    clearTimeout(timeout);
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
 
-    callback(data);
-  };
+      clearTimeout(timeout);
+
+      callback(data);
+    };
 
 
   const params =
     new URLSearchParams(parametres);
 
-  params.set("callback", nomCallback);
+  params.set(
+    "callback",
+    nomCallback
+  );
 
 
   script.src =
     APP_URL + "?" + params.toString();
 
 
-  script.onerror = function() {
+  script.onerror =
+    function() {
 
-    if (termine) return;
+      if (termine) return;
 
-    termine = true;
+      termine = true;
 
-    delete window[nomCallback];
+      delete window[nomCallback];
 
-    if (script.parentNode) {
-      script.parentNode.removeChild(script);
-    }
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
 
-    clearTimeout(timeout);
+      clearTimeout(timeout);
 
-    callback({
-      status: "ERROR",
-      message: "Impossible de contacter le serveur"
-    });
-
-  };
+      callback({
+        status: "ERROR",
+        message:
+          "Impossible de contacter le serveur"
+      });
+    };
 
 
   document.body.appendChild(script);
 
 
-  timeout = setTimeout(function() {
+  timeout =
+    setTimeout(function() {
 
-    if (termine) return;
+      if (termine) return;
 
-    termine = true;
+      termine = true;
 
-    delete window[nomCallback];
+      delete window[nomCallback];
 
-    if (script.parentNode) {
-      script.parentNode.removeChild(script);
-    }
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
 
-    callback({
-      status: "ERROR",
-      message: "Le serveur ne répond pas"
-    });
+      callback({
+        status: "ERROR",
+        message:
+          "Le serveur ne répond pas"
+      });
 
-  }, 15000);
-
+    }, 15000);
 }
 
+
+// =====================================================
+// EXTRACTION DE L'IDENTIFIANT DU QR
+// =====================================================
 
 function trouverId(texte) {
 
@@ -693,12 +777,17 @@ function trouverId(texte) {
       return id.toUpperCase();
     }
 
-  } catch(e) {}
+  }
+  catch(e) {}
 
 
   return null;
 }
 
+
+// =====================================================
+// QR DÉTECTÉ
+// =====================================================
 
 function qrDetecte(texte) {
 
@@ -714,7 +803,9 @@ function qrDetecte(texte) {
     document.getElementById(
       "scannerResult"
     ).innerHTML =
-      '<span class="error">QR code non reconnu</span>';
+      '<span class="error">' +
+      "QR code non reconnu" +
+      "</span>";
 
     return;
   }
@@ -726,18 +817,24 @@ function qrDetecte(texte) {
   document.getElementById(
     "scannerResult"
   ).innerHTML =
-    '<span class="ok">Membre : ' +
+    '<span class="ok">' +
+    "Membre : " +
     id +
-    '</span>';
+    "</span>";
 
 
   arreterScanner()
     .then(function() {
-      rechercherMembre(id);
-    });
 
+      rechercherMembre(id);
+
+    });
 }
 
+
+// =====================================================
+// RECHERCHE DU MEMBRE
+// =====================================================
 
 function rechercherMembre(id) {
 
@@ -746,6 +843,7 @@ function rechercherMembre(id) {
       api: "getMember",
       id: id
     },
+
     function(resultat) {
 
       if (
@@ -765,7 +863,9 @@ function rechercherMembre(id) {
           ) +
           "</span>";
 
+
         scanEnCours = false;
+
 
         setTimeout(
           demarrerScanner,
@@ -790,9 +890,12 @@ function rechercherMembre(id) {
 
     }
   );
-
 }
 
+
+// =====================================================
+// AFFICHAGE DU PAIEMENT
+// =====================================================
 
 function afficherPaiement() {
 
@@ -830,39 +933,57 @@ function afficherPaiement() {
 
 
   afficherPanier();
-
 }
 
 
-function ajouterProduit(produit, prix) {
+// =====================================================
+// AJOUT PRODUIT
+// =====================================================
+
+function ajouterProduit(
+  produit,
+  prix
+) {
 
   const existant =
     panier.find(function(item) {
+
       return item.produit === produit;
+
     });
 
 
   if (existant) {
+
     existant.quantite++;
-  } else {
+
+  }
+  else {
+
     panier.push({
       produit: produit,
       prix: prix,
       quantite: 1
     });
+
   }
 
 
   afficherPanier();
-
 }
 
+
+// =====================================================
+// RETRAIT D'UNE UNITÉ
+// =====================================================
 
 function retirerProduit(produit) {
 
   const index =
     panier.findIndex(function(item) {
+
       return item.produit === produit;
+
     });
 
 
@@ -872,45 +993,60 @@ function retirerProduit(produit) {
   panier[index].quantite--;
 
 
-  if (panier[index].quantite <= 0) {
+  if (
+    panier[index].quantite <= 0
+  ) {
+
     panier.splice(index, 1);
+
   }
 
 
   afficherPanier();
-
 }
 
+
+// =====================================================
+// VIDER LE PANIER
+// =====================================================
 
 function viderPanier() {
 
   panier = [];
 
   afficherPanier();
-
 }
 
+
+// =====================================================
+// CALCUL TOTAL
+// =====================================================
 
 function calculerTotal() {
 
   let total = 0;
 
 
-  panier.forEach(function(item) {
+  panier.forEach(
+    function(item) {
 
-    total +=
-      item.prix *
-      item.quantite;
+      total +=
+        item.prix *
+        item.quantite;
 
-  });
+    }
+  );
 
 
   return Math.round(
     total * 100
   ) / 100;
-
 }
 
+
+// =====================================================
+// AFFICHAGE DU PANIER
+// =====================================================
 
 function afficherPanier() {
 
@@ -919,10 +1055,12 @@ function afficherPanier() {
       "cartContent"
     );
 
+
   const totalElement =
     document.getElementById(
       "cartTotal"
     );
+
 
   const bouton =
     document.getElementById(
@@ -933,82 +1071,105 @@ function afficherPanier() {
   if (panier.length === 0) {
 
     contenu.innerHTML =
-      '<div class="cart-empty">Aucun article</div>';
+      '<div class="cart-empty">' +
+      "Aucun article" +
+      "</div>";
+
 
     totalElement.textContent =
       "0,00 €";
 
+
     bouton.disabled = true;
+
 
     return;
   }
 
 
   let total = 0;
+
   let html = "";
 
 
-  panier.forEach(function(item) {
+  panier.forEach(
+    function(item) {
 
-    const montant =
-      item.prix *
-      item.quantite;
-
-
-    total += montant;
+      const montant =
+        item.prix *
+        item.quantite;
 
 
-    const produitEncode =
-      item.produit
-        .replace(/\\/g, "\\\\")
-        .replace(/'/g, "\\'");
+      total += montant;
 
 
-    html +=
-      '<div class="cartLine">' +
+      const produitEncode =
+        item.produit
+          .replace(
+            /\\/g,
+            "\\\\"
+          )
+          .replace(
+            /'/g,
+            "\\'"
+          );
 
-        '<div class="cartName">' +
-          item.produit +
-        '</div>' +
 
-        '<button class="qty-btn" ' +
+      html +=
+
+        '<div class="cartLine">' +
+
+          '<div class="cartName">' +
+            item.produit +
+          "</div>" +
+
+          '<button class="qty-btn" ' +
           'onclick="retirerProduit(\'' +
           produitEncode +
-          '\')">−</button>' +
+          "')\">−</button>" +
 
-        '<div class="cartQty">' +
-          item.quantite +
-        '</div>' +
+          '<div class="cartQty">' +
+            item.quantite +
+          "</div>" +
 
-        '<div class="cartPrice">' +
-          euro(montant) +
-        '</div>' +
+          '<div class="cartPrice">' +
+            euro(montant) +
+          "</div>" +
 
-        '<button class="remove" ' +
+          '<button class="remove" ' +
           'onclick="retirerProduit(\'' +
           produitEncode +
-          '\')">×</button>' +
+          "')\">×</button>" +
 
-      '</div>';
+        "</div>";
 
-  });
+    }
+  );
 
 
-  contenu.innerHTML = html;
+  contenu.innerHTML =
+    html;
 
 
   totalElement.textContent =
     euro(total);
 
 
-  bouton.disabled = false;
-
+  bouton.disabled =
+    false;
 }
 
 
+// =====================================================
+// PAIEMENT
+// =====================================================
+
 function payer() {
 
-  if (!membre || panier.length === 0) {
+  if (
+    !membre ||
+    panier.length === 0
+  ) {
     return;
   }
 
@@ -1017,12 +1178,20 @@ function payer() {
     calculerTotal();
 
 
-  if (membre.solde < total) {
+  // Vérification locale.
+  // Le serveur effectue lui aussi
+  // sa propre vérification.
+
+  if (
+    membre.solde < total
+  ) {
 
     document.getElementById(
       "paymentMessage"
     ).innerHTML =
-      '<span class="error">Solde insuffisant</span>';
+      '<span class="error">' +
+      "Solde insuffisant" +
+      "</span>";
 
     return;
   }
@@ -1035,6 +1204,7 @@ function payer() {
 
 
   bouton.disabled = true;
+
 
   bouton.textContent =
     "PAIEMENT EN COURS...";
@@ -1063,6 +1233,7 @@ function payer() {
       id: membre.id,
       items: JSON.stringify(items)
     },
+
     function(resultat) {
 
       if (
@@ -1071,6 +1242,7 @@ function payer() {
       ) {
 
         bouton.disabled = false;
+
 
         bouton.textContent =
           "✓ VALIDER LE PAIEMENT";
@@ -1088,14 +1260,23 @@ function payer() {
           ) +
           "</span>";
 
+
         return;
       }
+
+
+      membre.solde =
+        Number(
+          resultat.nouveauSolde
+        );
 
 
       document.getElementById(
         "memberBalance"
       ).textContent =
-        euro(resultat.nouveauSolde);
+        euro(
+          resultat.nouveauSolde
+        );
 
 
       document.getElementById(
@@ -1120,9 +1301,12 @@ function payer() {
 
     }
   );
-
 }
 
+
+// =====================================================
+// ANNULATION
+// =====================================================
 
 function annulerPaiement() {
 
@@ -1131,9 +1315,14 @@ function annulerPaiement() {
 }
 
 
+// =====================================================
+// RETOUR AU SCANNER
+// =====================================================
+
 function retourScanner() {
 
   membre = null;
+
   panier = [];
 
 
@@ -1161,6 +1350,7 @@ function retourScanner() {
 
   bouton.disabled = true;
 
+
   bouton.textContent =
     "✓ VALIDER LE PAIEMENT";
 
@@ -1172,9 +1362,12 @@ function retourScanner() {
     demarrerScanner,
     300
   );
-
 }
 
+
+// =====================================================
+// ARRÊT DU SCANNER
+// =====================================================
 
 function arreterScanner() {
 
@@ -1192,23 +1385,30 @@ function arreterScanner() {
 
   return ancienScanner
     .stop()
+
     .then(function() {
 
       try {
         ancienScanner.clear();
-      } catch(e) {}
+      }
+      catch(e) {}
 
     })
+
     .catch(function() {
 
       try {
         ancienScanner.clear();
-      } catch(e) {}
+      }
+      catch(e) {}
 
     });
-
 }
 
+
+// =====================================================
+// DÉMARRAGE DU SCANNER
+// =====================================================
 
 function demarrerScanner() {
 
@@ -1231,11 +1431,14 @@ function demarrerScanner() {
 
 
   const configuration = {
+
     fps: 10,
+
     qrbox: {
       width: 250,
       height: 250
     }
+
   };
 
 
@@ -1245,14 +1448,18 @@ function demarrerScanner() {
     qrDetecte,
     function(){}
   )
+
   .then(function() {
 
     document.getElementById(
       "scannerResult"
     ).innerHTML =
-      '<span class="ok">● Caméra avant active</span>';
+      '<span class="ok">' +
+      "● Caméra avant active" +
+      "</span>";
 
   })
+
   .catch(function(erreur) {
 
     scanner = null;
@@ -1271,28 +1478,13 @@ function demarrerScanner() {
 }
 
 
+// =====================================================
+// DÉMARRAGE
+// =====================================================
+
 window.addEventListener(
   "load",
   function() {
-
-    const rechargeId =
-      localStorage.getItem("ccaRechargeId");
-
-    if (rechargeId) {
-
-      localStorage.removeItem("ccaRechargeId");
-
-      document.getElementById(
-        "scannerResult"
-      ).innerHTML =
-        '<span class="ok">Recharge en cours de vérification...</span>';
-
-      verifierRechargeApresRetour(
-        rechargeId
-      );
-
-      return;
-    }
 
     setTimeout(
       demarrerScanner,
@@ -1301,134 +1493,7 @@ window.addEventListener(
 
   }
 );
-function rechargerCompte() {
 
-  if (!membre || !membre.id) {
-    return;
-  }
-
-  // On mémorise le membre avant de partir sur HelloAsso
-  localStorage.setItem(
-    "ccaRechargeId",
-    membre.id
-  );
-
-  // Ouverture du formulaire HelloAsso
-  window.location.href =
-    "https://www.helloasso.com/associations/association-cercle-des-chefs-d-atelier/boutiques/je-regle-mon-billard-et-mes-boissons";
-}
-let verificationRechargeTimer = null;
-let verificationRechargeDebut = null;
-
-function verifierRechargeApresRetour(ccaId) {
-
-  if (verificationRechargeTimer) {
-    clearTimeout(verificationRechargeTimer);
-  }
-
-  verificationRechargeDebut = Date.now();
-
-  document.getElementById("scannerResult").innerHTML =
-    '<span class="ok">Vérification de votre recharge...</span>';
-
-  verifierRechargeUneFois(ccaId);
-}
-
-
-function verifierRechargeUneFois(ccaId) {
-
-  appelerApi(
-    {
-      api: "checkRecharge",
-      id: ccaId
-    },
-    function(resultat) {
-
-      // Une nouvelle recharge a réellement été détectée
-      if (
-        resultat &&
-        resultat.status === "OK" &&
-        resultat.recharge === true
-      ) {
-
-        document.getElementById("scannerResult").innerHTML =
-          '<span class="ok">' +
-          "✓ Recharge reçue !<br>" +
-          "Nouveau solde : " +
-          euro(resultat.solde) +
-          "</span>";
-
-        setTimeout(
-          function() {
-            demarrerScanner();
-          },
-          2500
-        );
-
-        return;
-      }
-
-      // Une erreur serveur : on arrête plutôt que
-      // de multiplier les appels à HelloAsso
-      if (
-        !resultat ||
-        resultat.status !== "OK"
-      ) {
-
-        document.getElementById("scannerResult").innerHTML =
-          '<span class="error">' +
-          "Vérification momentanément indisponible.<br>" +
-          "Veuillez réessayer dans quelques instants." +
-          "</span>";
-
-        setTimeout(
-          function() {
-            demarrerScanner();
-          },
-          4000
-        );
-
-        return;
-      }
-
-      // Pas encore de recharge :
-      // on vérifie à nouveau dans 5 secondes.
-      if (
-        Date.now() - verificationRechargeDebut < 30000
-      ) {
-
-        document.getElementById("scannerResult").innerHTML =
-          '<span class="ok">' +
-          "En attente de la confirmation du paiement..." +
-          "</span>";
-
-        verificationRechargeTimer = setTimeout(
-          function() {
-            verifierRechargeUneFois(ccaId);
-          },
-          5000
-        );
-
-        return;
-      }
-
-      // Après 30 secondes, on arrête les vérifications.
-      document.getElementById("scannerResult").innerHTML =
-        '<span class="error">' +
-        "La recharge n'est pas encore confirmée.<br>" +
-        "Elle peut être créditée dans quelques instants." +
-        "</span>";
-
-      setTimeout(
-        function() {
-          demarrerScanner();
-        },
-        4000
-      );
-    }
-  );
-}
 </script>
-
 </body>
 </html>
