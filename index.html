@@ -1,692 +1,669 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
 <title>CCA Paiement</title>
 
-<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script
+  src="https://unpkg.com/html5-qrcode"
+  type="text/javascript">
+</script>
 
 <style>
-*{box-sizing:border-box}
 
-:root{
-  --vert:#1f5a3a;
-  --vert-fonce:#17492e;
-  --vert-clair:#dcefd3;
-  --marron:#6b3f24;
-  --creme:#f5f1e8;
-  --blanc:#fffdf8;
-  --bord:#ddd5c8;
-  --texte:#2e2a25;
+* {
+  box-sizing: border-box;
 }
 
-html,body{
-  margin:0;
-  min-height:100%;
-  background:var(--creme);
-  color:var(--texte);
-  font-family:Arial,sans-serif
+body {
+  margin: 0;
+  background: #f5f1e8;
+  color: #3d2b1f;
+  font-family: Arial, sans-serif;
+  text-align: center;
 }
 
-body{text-align:center}
-
-header{
-  background:var(--blanc);
-  padding:8px 16px 7px;
-  border-bottom:4px solid var(--vert)
+header {
+  background: #6b3f24;
+  color: white;
+  padding: 18px;
 }
 
-.header-inner{
-  max-width:1180px;
-  margin:auto;
-  min-height:70px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:55px
+header h1 {
+  margin: 0;
+  font-size: 28px;
 }
 
-.logo-mark{
-  color:var(--vert);
-  font-size:42px;
-  font-weight:900;
-  letter-spacing:-3px
+main {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
 }
 
-.logo-dots{
-  color:var(--marron);
-  font-size:21px;
-  letter-spacing:-6px
+
+/* ================================
+   SCANNER
+================================ */
+
+#scannerPage {
+  display: block;
 }
 
-.logo-sub{
-  color:var(--marron);
-  font-size:12px;
-  font-weight:bold;
-  line-height:1.25;
-  margin-top:5px
+#message {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px 10px;
 }
 
-.title-block{text-align:left}
-
-.title-block h1{
-  margin:0;
-  color:var(--vert);
-  font-size:34px;
-  letter-spacing:1px
+#scanner {
+  width: min(90vw, 500px);
+  margin: auto;
+  background: black;
+  border-radius: 15px;
+  overflow: hidden;
 }
 
-.title-block h1 span{color:var(--marron)}
-
-.title-block div{
-  margin-top:2px;
-  color:var(--vert);
-  font-size:14px;
-  font-weight:bold;
-  letter-spacing:5px
+#scannerResult {
+  margin: 18px;
+  font-size: 18px;
 }
 
-main{
-  max-width:1180px;
-  margin:auto;
-  padding:10px
+.ok {
+  color: #247a3b;
+  font-weight: bold;
 }
 
-.panel{
-  background:rgba(255,253,248,.95);
-  border:1px solid var(--bord);
-  border-radius:17px;
-  box-shadow:0 2px 8px rgba(70,45,25,.08)
+.error {
+  color: #b3261e;
+  font-weight: bold;
 }
 
-/* SCANNER */
 
-#scannerPage{display:block}
+/* ================================
+   PAIEMENT
+================================ */
 
-.scanner-panel{
-  max-width:650px;
-  margin:20px auto;
-  padding:22px
+#paymentPage {
+  display: none;
 }
 
-.scanner-title{
-  color:var(--vert);
-  font-size:32px;
-  line-height:1.05;
-  font-weight:900;
-  margin-bottom:8px
+.member {
+  background: white;
+  border-radius: 15px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
 }
 
-.scanner-sub{
-  font-size:18px;
-  margin-bottom:15px
+.memberName {
+  font-size: 27px;
+  font-weight: bold;
 }
 
-#scanner{
-  width:min(90vw,560px);
-  margin:auto;
-  background:#111;
-  border-radius:15px;
-  overflow:hidden
+.memberBalance {
+  margin-top: 8px;
+  font-size: 21px;
 }
 
-#scannerResult{
-  margin:14px;
-  font-size:17px
+.balance {
+  font-weight: bold;
 }
 
-.ok{
-  color:var(--vert);
-  font-weight:bold
+
+/* ================================
+   PRODUITS
+================================ */
+
+.sectionTitle {
+  background: #6b3f24;
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 18px 0 10px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.error{
-  color:#b3261e;
-  font-weight:bold
+.products {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 
-/* PAIEMENT */
-
-#paymentPage{display:none}
-
-.payment-panel{padding:12px}
-
-.member{
-  background:var(--vert-clair);
-  color:var(--vert-fonce);
-  border-radius:13px;
-  padding:10px 14px;
-  display:grid;
-  grid-template-columns:minmax(0,1fr) auto;
-  align-items:center;
-  gap:12px;
-  text-align:left;
-  margin-bottom:9px
+.product {
+  background: white;
+  border: none;
+  border-radius: 12px;
+  padding: 15px 8px;
+  font-size: 18px;
+  color: #3d2b1f;
+  box-shadow: 0 2px 6px rgba(0,0,0,.12);
+  cursor: pointer;
 }
 
-.memberName{
-  font-size:25px;
-  font-weight:900;
-  white-space:nowrap
+.product:active {
+  transform: scale(.97);
 }
 
-.memberId{
-  font-size:15px;
-  margin-top:3px
+.productName {
+  font-weight: bold;
 }
 
-.balance{
-  text-align:right;
-  white-space:nowrap
+.productPrice {
+  margin-top: 5px;
+  font-size: 16px;
 }
 
-.balance-label{
-  font-size:14px
+
+/* ================================
+   BILLARD
+================================ */
+
+.billiard-section {
+  margin-top: 20px;
 }
 
-.balance-value{
-  font-size:25px;
-  font-weight:900
+.billiard {
+  width: 100%;
+  background: #d8ead8;
+  border: 2px solid #6a946a;
+  border-radius: 12px;
+  padding: 17px;
+  font-size: 21px;
+  font-weight: bold;
+  color: #315b31;
+  cursor: pointer;
 }
 
-.section-title{
-  border-radius:10px;
-  padding:8px 14px;
-  margin:8px 0;
-  color:white;
-  font-size:20px;
-  font-weight:900;
-  text-align:left
+
+/* ================================
+   PANIER
+================================ */
+
+.cart {
+  background: white;
+  border-radius: 15px;
+  margin-top: 22px;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
 }
 
-.drinks-title,.cart-title{
-  background:var(--marron)
+.cart h2 {
+  margin-top: 0;
 }
 
-.billard-title{
-  background:var(--vert)
+.cartLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+  font-size: 17px;
 }
 
-.products{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px
+.cartName {
+  text-align: left;
+  flex: 1;
 }
 
-.product{
-  background:var(--blanc);
-  border:2px solid var(--bord);
-  border-radius:13px;
-  padding:7px 4px;
-  min-height:103px;
-  color:var(--texte);
-  box-shadow:0 2px 5px rgba(70,45,25,.08);
-  cursor:pointer;
-  font-family:Arial,sans-serif
+.cartQty {
+  margin: 0 10px;
+  font-weight: bold;
 }
 
-.product:active,
-.billiard:active{
-  transform:scale(.97)
+.cartPrice {
+  min-width: 65px;
+  text-align: right;
 }
 
-.productIcon{
-  height:48px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:37px
+.remove {
+  margin-left: 10px;
+  border: none;
+  background: #eee;
+  border-radius: 6px;
+  padding: 5px 8px;
+  cursor: pointer;
 }
 
-.productName{
-  font-size:16px;
-  font-weight:800;
-  line-height:1.05
+.total {
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 18px;
 }
 
-.productPrice{
-  font-size:16px;
-  font-weight:900;
-  color:var(--vert);
-  margin-top:5px
+.payButton {
+  width: 100%;
+  margin-top: 15px;
+  padding: 18px;
+  border: none;
+  border-radius: 12px;
+  background: #247a3b;
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.billiard{
-  width:100%;
-  min-height:110px;
-  background:var(--blanc);
-  border:2px solid var(--bord);
-  border-radius:13px;
-  color:var(--texte);
-  box-shadow:0 2px 5px rgba(70,45,25,.08);
-  cursor:pointer;
-  font-size:21px;
-  font-weight:900
+.payButton:disabled {
+  background: #aaa;
+  cursor: default;
 }
 
-.billiard-icon{
-  display:block;
-  font-size:40px;
-  margin-bottom:4px
+.cancelButton {
+  width: 100%;
+  margin-top: 10px;
+  padding: 13px;
+  border: none;
+  border-radius: 12px;
+  background: #ddd;
+  color: #333;
+  font-size: 18px;
+  cursor: pointer;
 }
 
-.cart{
-  background:var(--blanc);
-  border:2px solid var(--bord);
-  border-radius:13px;
-  overflow:hidden;
-  margin-top:9px
+
+/* ================================
+   MESSAGE PAIEMENT
+================================ */
+
+#paymentMessage {
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: bold;
 }
 
-.cart-head{
-  background:var(--marron);
-  color:white;
-  padding:8px 13px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-size:20px;
-  font-weight:900
-}
 
-.clear{
-  border:0;
-  background:transparent;
-  color:white;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer
-}
+/* ================================
+   TABLETTE
+================================ */
 
-.cartContent{
-  padding:0 10px
-}
+@media (min-width: 700px) {
 
-.cartLine{
-  display:grid;
-  grid-template-columns:1fr 32px 42px 70px 32px;
-  gap:5px;
-  align-items:center;
-  border-bottom:1px solid #e5dfd5;
-  padding:6px 0;
-  font-size:16px
-}
-
-.cartName{
-  text-align:left;
-  font-weight:bold
-}
-
-.cartQty{
-  text-align:center;
-  font-weight:bold
-}
-
-.cartPrice{
-  text-align:right;
-  font-weight:bold
-}
-
-.qty-btn,.remove{
-  border:0;
-  border-radius:50%;
-  width:29px;
-  height:29px;
-  cursor:pointer;
-  font-weight:bold
-}
-
-.qty-btn{
-  background:var(--vert-clair);
-  color:var(--vert);
-  font-size:19px
-}
-
-.remove{
-  background:#eee;
-  color:#333;
-  font-size:18px
-}
-
-.cart-empty{
-  padding:12px;
-  color:#777
-}
-
-.total{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:var(--vert-clair);
-  color:var(--vert-fonce);
-  margin:0 10px 9px;
-  padding:8px 13px;
-  border-radius:10px;
-  font-size:23px;
-  font-weight:900
-}
-
-.actions{
-  display:grid;
-  grid-template-columns:2fr 1fr;
-  gap:9px;
-  padding:0 10px 10px
-}
-
-.payButton,
-.cancelButton{
-  border-radius:12px;
-  padding:14px;
-  border:2px solid var(--vert);
-  font-size:19px;
-  font-weight:900;
-  cursor:pointer
-}
-
-.payButton{
-  background:var(--vert);
-  color:white
-}
-
-.payButton:disabled{
-  background:#aaa;
-  border-color:#aaa
-}
-
-.cancelButton{
-  background:var(--blanc);
-  color:var(--vert)
-}
-
-#paymentMessage{
-  padding:0 10px 8px;
-  font-size:17px;
-  font-weight:bold
-}
-
-@media(max-width:600px){
-
-  .header-inner{
-    gap:10px;
-    justify-content:space-between
+  .products {
+    grid-template-columns: repeat(4, 1fr);
   }
 
-  .logo-mark{font-size:30px}
-  .logo-sub{display:none}
-
-  .title-block h1{font-size:23px}
-
-  .title-block div{
-    font-size:10px;
-    letter-spacing:2px
+  main {
+    padding-top: 15px;
   }
 
-  .products{
-    grid-template-columns:repeat(2,1fr)
+  .product {
+    min-height: 90px;
   }
 
-  .memberName{font-size:20px}
-  .balance-value{font-size:22px}
 }
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <header>
-  <div class="header-inner">
 
-    <div>
-      <div class="logo-mark">
-        CCA <span class="logo-dots">●●●</span>
-      </div>
+  <h1>CCA PAIEMENT</h1>
 
-      <div class="logo-sub">
-        Cercle des chefs d’atelier<br>
-        Billard • Carrom • Échecs
-      </div>
-    </div>
-
-    <div class="title-block">
-      <h1>CCA <span>PAIEMENT</span></h1>
-      <div>BOISSONS &amp; BILLARD</div>
-    </div>
-
-  </div>
 </header>
+
 
 <main>
 
+
+<!-- ==================================================
+     PAGE SCANNER
+=================================================== -->
+
 <section id="scannerPage">
 
-  <div class="panel scanner-panel">
+  <div id="message">
+    Présentez votre QR code
+  </div>
 
-    <div class="scanner-title">
-      ▣ Présentez<br>votre QR code
-    </div>
+  <div id="scanner"></div>
 
-    <div class="scanner-sub">
-      Placez le QR code devant la caméra
-    </div>
-
-    <div id="scanner"></div>
-
-    <div id="scannerResult">
-      Initialisation de la caméra...
-    </div>
-
+  <div id="scannerResult">
+    Initialisation de la caméra...
   </div>
 
 </section>
+
+
+
+<!-- ==================================================
+     PAGE PAIEMENT
+=================================================== -->
 
 <section id="paymentPage">
 
-  <div class="panel payment-panel">
 
-    <div class="member">
+  <div class="member">
 
-      <div>
-        <div id="memberName" class="memberName"></div>
-        <div id="memberId" class="memberId"></div>
-      </div>
-
-      <div class="balance">
-        <div class="balance-label">Solde</div>
-        <div id="memberBalance" class="balance-value"></div>
-      </div>
-
+    <div
+      id="memberName"
+      class="memberName">
     </div>
 
-    <div class="section-title drinks-title">
-      🍷 BOISSONS
-    </div>
+    <div class="memberBalance">
 
-    <div class="products">
+      Solde :
 
-      <button class="product"
-              onclick="ajouterProduit('Café',0.50)">
-        <div class="productIcon">☕</div>
-        <div class="productName">Café</div>
-        <div class="productPrice">0,50 €</div>
-      </button>
-
-      <button class="product"
-              onclick="ajouterProduit('Thé',0.50)">
-        <div class="productIcon">🍵</div>
-        <div class="productName">Thé</div>
-        <div class="productPrice">0,50 €</div>
-      </button>
-
-      <button class="product"
-              onclick="ajouterProduit('Eau plate',0.50)">
-        <div class="productIcon">💧</div>
-        <div class="productName">Eau plate</div>
-        <div class="productPrice">0,50 €</div>
-      </button>
-
-      <button class="product"
-              onclick="ajouterProduit('Eau gazeuse',0.50)">
-        <div class="productIcon">💦</div>
-        <div class="productName">Eau gazeuse</div>
-        <div class="productPrice">0,50 €</div>
-      </button>
-
-      <button class="product"
-              onclick="ajouterProduit('Leffe 50 cl',2.50)">
-        <div class="productIcon">🍺</div>
-        <div class="productName">Leffe 50 cl</div>
-        <div class="productPrice">2,50 €</div>
-      </button>
-
-      <button class="product"
-              onclick="ajouterProduit('La Soyeuse 75 cl',9.00)">
-        <div class="productIcon">🍾</div>
-        <div class="productName">
-          La Soyeuse<br>75 cl
-        </div>
-        <div class="productPrice">9,00 €</div>
-      </button>
-
-      <button class="product"
-              onclick="ajouterProduit('Vin verre',1.00)">
-        <div class="productIcon">🍷</div>
-        <div class="productName">Vin verre</div>
-        <div class="productPrice">1,00 €</div>
-      </button>
-
-      <button class="product"
-              onclick="ajouterProduit('Vin carafe 50 cl',4.00)">
-        <div class="productIcon">🍷</div>
-        <div class="productName">
-          Vin carafe<br>50 cl
-        </div>
-        <div class="productPrice">4,00 €</div>
-      </button>
-
-    </div>
-
-    <div class="section-title billard-title">
-      🎱 BILLARD
-    </div>
-
-    <button class="billiard"
-            onclick="ajouterProduit('Billard',3.00)">
-      <span class="billiard-icon">🎱</span>
-      Billard — 3,00 €
-    </button>
-
-    <div class="cart">
-
-      <div class="cart-head">
-        <span>🛒 PANIER</span>
-
-        <button class="clear"
-                onclick="viderPanier()">
-          🗑 Vider
-        </button>
-      </div>
-
-      <div id="cartContent"
-           class="cartContent">
-        <div class="cart-empty">
-          Aucun article
-        </div>
-      </div>
-
-      <div class="total">
-        <span>Total</span>
-        <span id="cartTotal">0,00 €</span>
-      </div>
-
-      <div class="actions">
-
-        <button id="payButton"
-                class="payButton"
-                onclick="payer()"
-                disabled>
-          ✓ VALIDER LE PAIEMENT
-        </button>
-
-        <button class="cancelButton"
-                onclick="annulerPaiement()">
-          ✕ ANNULER
-        </button>
-
-      </div>
-
-      <div id="paymentMessage"></div>
+      <span
+        id="memberBalance"
+        class="balance">
+      </span>
 
     </div>
 
   </div>
 
+
+
+  <!-- =========================
+       BOISSONS
+  ========================== -->
+
+  <div class="sectionTitle">
+    BOISSONS
+  </div>
+
+
+  <div class="products">
+
+
+    <button
+      class="product"
+      onclick="ajouterProduit('Café', 0.50)">
+
+      <div class="productName">
+        Café
+      </div>
+
+      <div class="productPrice">
+        0,50 €
+      </div>
+
+    </button>
+
+
+    <button
+      class="product"
+      onclick="ajouterProduit('Thé', 0.50)">
+
+      <div class="productName">
+        Thé
+      </div>
+
+      <div class="productPrice">
+        0,50 €
+      </div>
+
+    </button>
+
+
+    <button
+      class="product"
+      onclick="ajouterProduit('Eau plate', 0.50)">
+
+      <div class="productName">
+        Eau plate
+      </div>
+
+      <div class="productPrice">
+        0,50 €
+      </div>
+
+    </button>
+
+
+    <button
+      class="product"
+      onclick="ajouterProduit('Eau gazeuse', 0.50)">
+
+      <div class="productName">
+        Eau gazeuse
+      </div>
+
+      <div class="productPrice">
+        0,50 €
+      </div>
+
+    </button>
+
+
+    <button
+      class="product"
+      onclick="ajouterProduit('Leffe 50 cl', 2.50)">
+
+      <div class="productName">
+        Leffe 50 cl
+      </div>
+
+      <div class="productPrice">
+        2,50 €
+      </div>
+
+    </button>
+
+
+    <button
+      class="product"
+      onclick="ajouterProduit('La Soyeuse 75 cl', 9.00)">
+
+      <div class="productName">
+        La Soyeuse 75 cl
+      </div>
+
+      <div class="productPrice">
+        9,00 €
+      </div>
+
+    </button>
+
+
+    <button
+      class="product"
+      onclick="ajouterProduit('Vin verre', 1.00)">
+
+      <div class="productName">
+        Vin verre
+      </div>
+
+      <div class="productPrice">
+        1,00 €
+      </div>
+
+    </button>
+
+
+    <button
+      class="product"
+      onclick="ajouterProduit('Vin carafe 50 cl', 4.00)">
+
+      <div class="productName">
+        Vin carafe 50 cl
+      </div>
+
+      <div class="productPrice">
+        4,00 €
+      </div>
+
+    </button>
+
+
+  </div>
+
+
+
+  <!-- =========================
+       BILLARD
+  ========================== -->
+
+  <div class="billiard-section">
+
+    <div class="sectionTitle">
+      BILLARD
+    </div>
+
+
+    <button
+      class="billiard"
+      onclick="ajouterProduit('Billard', 3.00)">
+
+      🎱 Billard — 3,00 €
+
+    </button>
+
+  </div>
+
+
+
+  <!-- =========================
+       PANIER
+  ========================== -->
+
+  <div class="cart">
+
+    <h2>
+      PANIER
+    </h2>
+
+
+    <div id="cartContent">
+      Aucun article
+    </div>
+
+
+    <div class="total">
+
+      Total :
+
+      <span id="cartTotal">
+        0,00 €
+      </span>
+
+    </div>
+
+
+    <button
+      id="payButton"
+      class="payButton"
+      onclick="payer()"
+      disabled>
+
+      VALIDER LE PAIEMENT
+
+    </button>
+
+
+    <button
+      class="cancelButton"
+      onclick="annulerPaiement()">
+
+      ANNULER
+
+    </button>
+
+
+    <div id="paymentMessage"></div>
+
+  </div>
+
+
 </section>
 
+
 </main>
+
+
+
 <script>
+
+
+// =====================================================
+// CONFIGURATION
+// =====================================================
 
 const APP_URL =
   "https://script.google.com/macros/s/AKfycbyLwHdP9lETK6d0Y6u8_jhdBlNgKoJZCDxu2RvFKiJ6Ymqyi4GEfsE3UJf1P95GjignMg/exec";
 
+
+// =====================================================
+// VARIABLES
+// =====================================================
+
 let scanner = null;
+
 let scanEnCours = false;
+
 let membre = null;
+
 let panier = [];
 
 
+
 // =====================================================
-// FORMATAGE EURO
+// OUTIL : FORMAT EURO
 // =====================================================
 
 function euro(montant) {
+
   return Number(montant)
     .toFixed(2)
     .replace(".", ",") + " €";
+
 }
 
 
+
 // =====================================================
-// APPEL API JSONP
+// API JSONP
 // =====================================================
 
 function appelerApi(parametres, callback) {
+
 
   const nomCallback =
     "ccaCallback_" +
     Date.now() +
     "_" +
-    Math.floor(Math.random() * 100000);
+    Math.floor(
+      Math.random() * 100000
+    );
+
 
   let termine = false;
 
-  const script =
-    document.createElement("script");
 
-  let timeout;
+  window[nomCallback] = function(data) {
 
+    if (termine) return;
 
-  window[nomCallback] =
-    function(data) {
+    termine = true;
 
-      if (termine) return;
+    delete window[nomCallback];
 
-      termine = true;
+    if (script.parentNode) {
+      script.parentNode.removeChild(script);
+    }
 
-      delete window[nomCallback];
+    clearTimeout(timeout);
 
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
+    callback(data);
 
-      clearTimeout(timeout);
-
-      callback(data);
-    };
+  };
 
 
   const params =
     new URLSearchParams(parametres);
+
 
   params.set(
     "callback",
@@ -694,37 +671,46 @@ function appelerApi(parametres, callback) {
   );
 
 
+  const script =
+    document.createElement("script");
+
+
   script.src =
-    APP_URL + "?" + params.toString();
+    APP_URL +
+    "?" +
+    params.toString();
 
 
-  script.onerror =
-    function() {
+  script.onerror = function() {
 
-      if (termine) return;
+    if (termine) return;
 
-      termine = true;
+    termine = true;
 
-      delete window[nomCallback];
+    delete window[nomCallback];
 
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
+    if (script.parentNode) {
+      script.parentNode.removeChild(script);
+    }
 
-      clearTimeout(timeout);
+    clearTimeout(timeout);
 
-      callback({
-        status: "ERROR",
-        message:
-          "Impossible de contacter le serveur"
-      });
-    };
+    callback({
+
+      status: "ERROR",
+
+      message:
+        "Impossible de contacter le serveur"
+
+    });
+
+  };
 
 
   document.body.appendChild(script);
 
 
-  timeout =
+  const timeout =
     setTimeout(function() {
 
       if (termine) return;
@@ -738,17 +724,22 @@ function appelerApi(parametres, callback) {
       }
 
       callback({
+
         status: "ERROR",
+
         message:
           "Le serveur ne répond pas"
+
       });
 
     }, 15000);
+
 }
 
 
+
 // =====================================================
-// EXTRACTION DE L'IDENTIFIANT DU QR
+// EXTRAIRE L'ID DU QR
 // =====================================================
 
 function trouverId(texte) {
@@ -757,32 +748,47 @@ function trouverId(texte) {
     String(texte || "").trim();
 
 
-  if (/^CCA\d+$/i.test(texte)) {
+  // QR simple : CCA002
+
+  if (
+    /^CCA\d+$/i.test(texte)
+  ) {
+
     return texte.toUpperCase();
+
   }
 
+
+  // Ancien QR contenant une URL
 
   try {
 
     const url =
       new URL(texte);
 
+
     const id =
       url.searchParams.get("id");
+
 
     if (
       id &&
       /^CCA\d+$/i.test(id)
     ) {
+
       return id.toUpperCase();
+
     }
 
   }
+
   catch(e) {}
 
 
   return null;
+
 }
+
 
 
 // =====================================================
@@ -791,7 +797,10 @@ function trouverId(texte) {
 
 function qrDetecte(texte) {
 
-  if (scanEnCours) return;
+
+  if (scanEnCours) {
+    return;
+  }
 
 
   const id =
@@ -803,11 +812,10 @@ function qrDetecte(texte) {
     document.getElementById(
       "scannerResult"
     ).innerHTML =
-      '<span class="error">' +
-      "QR code non reconnu" +
-      "</span>";
+      '<span class="error">QR code non reconnu</span>';
 
     return;
+
   }
 
 
@@ -815,10 +823,15 @@ function qrDetecte(texte) {
 
 
   document.getElementById(
+    "message"
+  ).textContent =
+    "Identification en cours...";
+
+
+  document.getElementById(
     "scannerResult"
   ).innerHTML =
-    '<span class="ok">' +
-    "Membre : " +
+    '<span class="ok">Membre : ' +
     id +
     "</span>";
 
@@ -829,22 +842,30 @@ function qrDetecte(texte) {
       rechercherMembre(id);
 
     });
+
 }
 
 
+
 // =====================================================
-// RECHERCHE DU MEMBRE
+// RECHERCHER LE MEMBRE
 // =====================================================
 
 function rechercherMembre(id) {
 
+
   appelerApi(
+
     {
+
       api: "getMember",
+
       id: id
+
     },
 
     function(resultat) {
+
 
       if (
         !resultat ||
@@ -872,14 +893,22 @@ function rechercherMembre(id) {
           2000
         );
 
+
         return;
+
       }
 
 
       membre = {
+
         id: resultat.id,
+
         nom: resultat.nom,
-        solde: Number(resultat.solde)
+
+        solde: Number(
+          resultat.solde
+        )
+
       };
 
 
@@ -889,15 +918,19 @@ function rechercherMembre(id) {
       afficherPaiement();
 
     }
+
   );
+
 }
 
 
+
 // =====================================================
-// AFFICHAGE DU PAIEMENT
+// AFFICHER LA PAGE PAIEMENT
 // =====================================================
 
 function afficherPaiement() {
+
 
   document.getElementById(
     "scannerPage"
@@ -916,12 +949,6 @@ function afficherPaiement() {
 
 
   document.getElementById(
-    "memberId"
-  ).textContent =
-    "Membre n° " + membre.id;
-
-
-  document.getElementById(
     "memberBalance"
   ).textContent =
     euro(membre.solde);
@@ -933,17 +960,20 @@ function afficherPaiement() {
 
 
   afficherPanier();
+
 }
 
 
+
 // =====================================================
-// AJOUT PRODUIT
+// AJOUTER UN PRODUIT
 // =====================================================
 
 function ajouterProduit(
   produit,
   prix
 ) {
+
 
   const existant =
     panier.find(function(item) {
@@ -958,26 +988,34 @@ function ajouterProduit(
     existant.quantite++;
 
   }
+
   else {
 
     panier.push({
+
       produit: produit,
+
       prix: prix,
+
       quantite: 1
+
     });
 
   }
 
 
   afficherPanier();
+
 }
 
 
+
 // =====================================================
-// RETRAIT D'UNE UNITÉ
+// SUPPRIMER UNE UNITÉ
 // =====================================================
 
 function retirerProduit(produit) {
+
 
   const index =
     panier.findIndex(function(item) {
@@ -987,7 +1025,9 @@ function retirerProduit(produit) {
     });
 
 
-  if (index === -1) return;
+  if (index === -1) {
+    return;
+  }
 
 
   panier[index].quantite--;
@@ -1003,52 +1043,17 @@ function retirerProduit(produit) {
 
 
   afficherPanier();
+
 }
 
 
-// =====================================================
-// VIDER LE PANIER
-// =====================================================
-
-function viderPanier() {
-
-  panier = [];
-
-  afficherPanier();
-}
-
 
 // =====================================================
-// CALCUL TOTAL
-// =====================================================
-
-function calculerTotal() {
-
-  let total = 0;
-
-
-  panier.forEach(
-    function(item) {
-
-      total +=
-        item.prix *
-        item.quantite;
-
-    }
-  );
-
-
-  return Math.round(
-    total * 100
-  ) / 100;
-}
-
-
-// =====================================================
-// AFFICHAGE DU PANIER
+// AFFICHER LE PANIER
 // =====================================================
 
 function afficherPanier() {
+
 
   const contenu =
     document.getElementById(
@@ -1071,9 +1076,7 @@ function afficherPanier() {
   if (panier.length === 0) {
 
     contenu.innerHTML =
-      '<div class="cart-empty">' +
-      "Aucun article" +
-      "</div>";
+      "Aucun article";
 
 
     totalElement.textContent =
@@ -1084,92 +1087,124 @@ function afficherPanier() {
 
 
     return;
+
   }
 
 
   let total = 0;
 
+
   let html = "";
 
 
-  panier.forEach(
-    function(item) {
-
-      const montant =
-        item.prix *
-        item.quantite;
+  panier.forEach(function(item) {
 
 
-      total += montant;
+    const montant =
+      item.prix *
+      item.quantite;
 
 
-      const produitEncode =
-        item.produit
-          .replace(
-            /\\/g,
-            "\\\\"
-          )
-          .replace(
+    total += montant;
+
+
+    html +=
+
+      '<div class="cartLine">' +
+
+        '<div class="cartName">' +
+
+          item.produit +
+
+        "</div>" +
+
+        '<div class="cartQty">' +
+
+          "× " +
+
+          item.quantite +
+
+        "</div>" +
+
+        '<div class="cartPrice">' +
+
+          euro(montant) +
+
+        "</div>" +
+
+        '<button class="remove" ' +
+
+          'onclick="retirerProduit(\'' +
+
+          item.produit.replace(
             /'/g,
             "\\'"
-          );
+          ) +
+
+          "')\">" +
+
+          "−" +
+
+        "</button>" +
+
+      "</div>";
+
+  });
 
 
-      html +=
-
-        '<div class="cartLine">' +
-
-          '<div class="cartName">' +
-            item.produit +
-          "</div>" +
-
-          '<button class="qty-btn" ' +
-          'onclick="retirerProduit(\'' +
-          produitEncode +
-          "')\">−</button>" +
-
-          '<div class="cartQty">' +
-            item.quantite +
-          "</div>" +
-
-          '<div class="cartPrice">' +
-            euro(montant) +
-          "</div>" +
-
-          '<button class="remove" ' +
-          'onclick="retirerProduit(\'' +
-          produitEncode +
-          "')\">×</button>" +
-
-        "</div>";
-
-    }
-  );
-
-
-  contenu.innerHTML =
-    html;
+  contenu.innerHTML = html;
 
 
   totalElement.textContent =
     euro(total);
 
 
-  bouton.disabled =
-    false;
+  bouton.disabled = false;
+
 }
 
 
+
 // =====================================================
-// PAIEMENT
+// TOTAL
+// =====================================================
+
+function calculerTotal() {
+
+
+  let total = 0;
+
+
+  panier.forEach(function(item) {
+
+    total +=
+      item.prix *
+      item.quantite;
+
+  });
+
+
+  return Math.round(
+    total * 100
+  ) / 100;
+
+}
+
+
+
+// =====================================================
+// PAYER
 // =====================================================
 
 function payer() {
 
-  if (
-    !membre ||
-    panier.length === 0
-  ) {
+
+  if (!membre) {
+    return;
+  }
+
+
+  if (panier.length === 0) {
     return;
   }
 
@@ -1178,13 +1213,7 @@ function payer() {
     calculerTotal();
 
 
-  // Vérification locale.
-  // Le serveur effectue lui aussi
-  // sa propre vérification.
-
-  if (
-    membre.solde < total
-  ) {
+  if (membre.solde < total) {
 
     document.getElementById(
       "paymentMessage"
@@ -1193,7 +1222,9 @@ function payer() {
       "Solde insuffisant" +
       "</span>";
 
+
     return;
+
   }
 
 
@@ -1216,25 +1247,37 @@ function payer() {
     "Veuillez patienter...";
 
 
+  // On envoie uniquement produit + quantité.
+  // Le serveur vérifie lui-même les prix.
+
   const items =
     panier.map(function(item) {
 
       return {
+
         produit: item.produit,
+
         quantite: item.quantite
+
       };
 
     });
 
 
   appelerApi(
+
     {
+
       api: "debit",
+
       id: membre.id,
+
       items: JSON.stringify(items)
+
     },
 
     function(resultat) {
+
 
       if (
         !resultat ||
@@ -1243,32 +1286,29 @@ function payer() {
 
         bouton.disabled = false;
 
-
         bouton.textContent =
-          "✓ VALIDER LE PAIEMENT";
+          "VALIDER LE PAIEMENT";
 
 
         document.getElementById(
           "paymentMessage"
         ).innerHTML =
+
           '<span class="error">' +
+
           (
             resultat &&
             resultat.message
               ? resultat.message
               : "Erreur serveur"
           ) +
+
           "</span>";
 
 
         return;
+
       }
-
-
-      membre.solde =
-        Number(
-          resultat.nouveauSolde
-        );
 
 
       document.getElementById(
@@ -1282,30 +1322,43 @@ function payer() {
       document.getElementById(
         "paymentMessage"
       ).innerHTML =
+
         '<span class="ok">' +
+
         "Paiement accepté : " +
+
         euro(resultat.total) +
-        "<br>Nouveau solde : " +
+
+        "<br>" +
+
+        "Nouveau solde : " +
+
         euro(resultat.nouveauSolde) +
+
         "</span>";
 
 
       bouton.textContent =
-        "✓ PAIEMENT ACCEPTÉ";
+        "PAIEMENT ACCEPTÉ";
 
+
+      // Retour automatique au scanner
 
       setTimeout(
         retourScanner,
-        1800
+        2000
       );
 
     }
+
   );
+
 }
 
 
+
 // =====================================================
-// ANNULATION
+// ANNULER
 // =====================================================
 
 function annulerPaiement() {
@@ -1315,11 +1368,13 @@ function annulerPaiement() {
 }
 
 
+
 // =====================================================
 // RETOUR AU SCANNER
 // =====================================================
 
 function retourScanner() {
+
 
   membre = null;
 
@@ -1337,6 +1392,12 @@ function retourScanner() {
 
 
   document.getElementById(
+    "message"
+  ).textContent =
+    "Présentez votre QR code";
+
+
+  document.getElementById(
     "scannerResult"
   ).innerHTML =
     "Initialisation de la caméra...";
@@ -1350,9 +1411,8 @@ function retourScanner() {
 
   bouton.disabled = true;
 
-
   bouton.textContent =
-    "✓ VALIDER LE PAIEMENT";
+    "VALIDER LE PAIEMENT";
 
 
   scanEnCours = false;
@@ -1362,17 +1422,22 @@ function retourScanner() {
     demarrerScanner,
     300
   );
+
 }
 
 
+
 // =====================================================
-// ARRÊT DU SCANNER
+// ARRÊTER LE SCANNER
 // =====================================================
 
 function arreterScanner() {
 
+
   if (!scanner) {
+
     return Promise.resolve();
+
   }
 
 
@@ -1385,12 +1450,14 @@ function arreterScanner() {
 
   return ancienScanner
     .stop()
-
     .then(function() {
 
       try {
+
         ancienScanner.clear();
+
       }
+
       catch(e) {}
 
     })
@@ -1398,21 +1465,29 @@ function arreterScanner() {
     .catch(function() {
 
       try {
+
         ancienScanner.clear();
+
       }
+
       catch(e) {}
 
     });
+
 }
 
 
+
 // =====================================================
-// DÉMARRAGE DU SCANNER
+// DÉMARRER LE SCANNER
 // =====================================================
 
 function demarrerScanner() {
 
-  if (scanner) return;
+
+  if (scanner) {
+    return;
+  }
 
 
   const zone =
@@ -1435,18 +1510,26 @@ function demarrerScanner() {
     fps: 10,
 
     qrbox: {
+
       width: 250,
+
       height: 250
+
     }
 
   };
 
 
   scanner.start(
-    {facingMode:"user"},
+
+    { facingMode: "user" },
+
     configuration,
+
     qrDetecte,
-    function(){}
+
+    function() {}
+
   )
 
   .then(function() {
@@ -1454,9 +1537,7 @@ function demarrerScanner() {
     document.getElementById(
       "scannerResult"
     ).innerHTML =
-      '<span class="ok">' +
-      "● Caméra avant active" +
-      "</span>";
+      '<span class="ok">Caméra avant active</span>';
 
   })
 
@@ -1468,14 +1549,19 @@ function demarrerScanner() {
     document.getElementById(
       "scannerResult"
     ).innerHTML =
+
       '<span class="error">' +
-      "Impossible d’accéder à la caméra.<br>" +
+
+      "Impossible d'accéder à la caméra.<br>" +
+
       erreur +
+
       "</span>";
 
   });
 
 }
+
 
 
 // =====================================================
@@ -1495,5 +1581,10 @@ window.addEventListener(
 );
 
 </script>
+
+
 </body>
+
 </html>
+
+
