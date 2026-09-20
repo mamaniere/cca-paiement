@@ -107,12 +107,63 @@ main{max-width:1180px;margin:auto;padding:10px}
   background:var(--vert-clair);
   color:var(--vert-fonce);
   border-radius:13px;
-  padding:12px 18px;
-  display:flex;
-  justify-content:space-between;
+  padding:10px 14px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto auto;
   align-items:center;
+  gap:12px;
   text-align:left;
   margin-bottom:9px;
+}
+
+.member > div:first-child{
+  min-width:0;
+}
+
+.memberName{
+  font-size:25px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.memberId{
+  font-size:15px;
+  margin-top:3px;
+}
+
+.balance{
+  text-align:right;
+  white-space:nowrap;
+}
+
+.balance-label{
+  font-size:14px;
+}
+
+.balance-value{
+  font-size:25px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+#rechargeButton{
+  width:260px !important;
+  height:48px;
+  margin:0 !important;
+  padding:8px 12px;
+  border-radius:10px;
+  border:2px solid var(--marron);
+  background:var(--marron);
+  color:white;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+
+#rechargeButton:active{
+  transform:scale(.98);
 }
 .memberName{font-size:25px;font-weight:900}
 .memberId{font-size:15px;margin-top:3px}
