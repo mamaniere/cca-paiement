@@ -1,0 +1,10 @@
+{
+  "name": "CCA Paiement",
+  "short_name": "CCA Paiement",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#103b2c",
+  "theme_color": "#103b2c",
+  "orientation": "portrait",
+  "icons": []
+}
