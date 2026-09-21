@@ -8,801 +8,523 @@
 
 <style>
 *{box-sizing:border-box}
-
 :root{
-  --green:#087b3f;
-  --green-dark:#075b32;
-  --green-light:#d9f1d8;
-  --brown:#9b321d;
-  --border:#d6d6d6
+  --vert:#1f5a3a;
+  --vert-fonce:#17492e;
+  --vert-clair:#dcefd3;
+  --marron:#6b3f24;
+  --creme:#f5f1e8;
+  --blanc:#fffdf8;
+  --bord:#ddd5c8;
+  --texte:#2e2a25;
 }
-
-body{
-  margin:0;
-  background:#eef1ee;
-  color:#111;
-  font-family:Arial,sans-serif;
-  text-align:center
-}
-
+html,body{margin:0;min-height:100%;background:var(--creme);color:var(--texte);font-family:Arial,sans-serif}
+body{text-align:center}
 header{
-  background:#fff;
-  color:#111;
-  padding:14px 20px 10px;
-  border-bottom:4px solid var(--green);
-  box-shadow:0 1px 4px rgba(0,0,0,.08)
+  background:var(--blanc);
+  padding:8px 16px 7px;
+  border-bottom:4px solid var(--vert);
 }
-
-.brand{
+.header-inner{
+  max-width:1180px;
+  margin:auto;
+  min-height:70px;
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:34px;
-  max-width:980px;
-  margin:auto
+  gap:55px;
 }
-
-.brandLogo{
-  text-align:left;
-  min-width:205px;
-  line-height:.92
-}
-
-.brandLogoMain{
-  font-size:46px;
+.logo-block{display:flex;align-items:center}
+.logo-mark{
+  color:var(--vert);
+  font-size:42px;
+  line-height:.85;
   font-weight:900;
   letter-spacing:-3px;
-  color:var(--green)
+  white-space:nowrap;
 }
-
-.brandDots{
-  color:var(--brown);
-  font-size:38px;
-  letter-spacing:-8px;
-  margin-left:6px;
-  vertical-align:5px
-}
-
-.brandSub{
-  font-size:15px;
-  font-weight:700;
+.logo-dots{font-size:21px;letter-spacing:-6px;color:var(--marron);vertical-align:top}
+.logo-sub{
+  color:var(--marron);
+  font-size:12px;
+  font-weight:bold;
   line-height:1.25;
-  margin-top:6px
+  margin-top:5px;
 }
-
-.brandTitle{
-  text-align:left;
-  border-left:1px solid #ddd;
-  padding-left:34px
-}
-
-.brandTitleMain{
-  font-size:38px;
-  font-weight:900;
+.title-block{text-align:left}
+.title-block h1{
+  margin:0;
+  color:var(--vert);
+  font-size:34px;
   letter-spacing:1px;
-  white-space:nowrap
 }
-
-.brandTitleMain .g{
-  color:var(--green)
+.title-block h1 span{color:var(--marron)}
+.title-block div{
+  margin-top:2px;
+  color:var(--vert);
+  font-size:14px;
+  font-weight:bold;
+  letter-spacing:5px;
 }
-
-.brandTitleMain .b{
-  color:var(--brown)
-}
-
-.brandTitleSub{
-  font-size:18px;
-  letter-spacing:6px;
-  font-weight:800;
-  color:var(--green);
-  margin-top:4px
-}
-
-main{
-  max-width:980px;
-  margin:auto;
-  padding:18px 22px 28px
+main{max-width:1180px;margin:auto;padding:10px}
+.panel{
+  background:rgba(255,253,248,.95);
+  border:1px solid var(--bord);
+  border-radius:17px;
+  box-shadow:0 2px 8px rgba(70,45,25,.08);
 }
 
 /* SCANNER */
-
-#scannerPage{
-  display:block
+#scannerPage{display:block}
+.scanner-panel{
+  max-width:650px;
+  margin:20px auto;
+  padding:22px;
 }
-
-#message{
-  font-size:25px;
-  font-weight:800;
-  margin:18px 10px;
-  color:var(--green-dark)
+.scanner-title{
+  color:var(--vert);
+  font-size:32px;
+  line-height:1.05;
+  font-weight:900;
+  margin-bottom:8px;
 }
-
+.scanner-sub{font-size:18px;margin-bottom:15px}
 #scanner{
-  width:min(90vw,500px);
+  width:min(90vw,560px);
   margin:auto;
-  background:#000;
+  background:#111;
   border-radius:15px;
   overflow:hidden;
-  border:4px solid var(--green)
 }
-
-#scannerResult{
-  margin:16px;
-  font-size:18px
-}
-
-.ok{
-  color:var(--green);
-  font-weight:800
-}
-
-.error{
-  color:#b3261e;
-  font-weight:800
-}
+#scannerResult{margin:14px;font-size:17px}
+.ok{color:var(--vert);font-weight:bold}
+.error{color:#b3261e;font-weight:bold}
 
 /* PAIEMENT */
-
-#paymentPage{
-  display:none
+#paymentPage{display:none}
+.payment-panel{padding:12px}
+.member{
+  background:var(--vert-clair);
+  color:var(--vert-fonce);
+  border-radius:13px;
+  padding:10px 14px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto auto;
+  align-items:center;
+  gap:12px;
+  text-align:left;
+  margin-bottom:9px;
 }
 
-.member{
-  background:var(--green-light);
-  border-radius:15px;
-  padding:15px 20px;
-  margin-bottom:14px;
-  border:1px solid #c8e6c6;
-  display:grid;
-  grid-template-columns:1.55fr .8fr;
-  align-items:center;
-  text-align:left
+.member > div:first-child{
+  min-width:0;
 }
 
 .memberName{
-  font-size:28px;
+  font-size:25px;
   font-weight:900;
-  color:#0a5530;
-  line-height:1.1
+  white-space:nowrap;
 }
 
-.memberIdLine{
-  font-size:18px;
-  margin-top:4px
-}
-
-.memberBalance{
-  border-left:2px solid rgba(7,91,50,.3);
-  padding-left:28px;
-  font-size:19px;
-  color:#145b35
+.memberId{
+  font-size:15px;
+  margin-top:3px;
 }
 
 .balance{
-  display:block;
-  font-size:30px;
-  font-weight:900;
-  color:#075b32;
-  margin-top:2px
+  text-align:right;
+  white-space:nowrap;
 }
 
-/* PRODUITS */
-
-.sectionTitle{
-  background:var(--brown);
-  color:#fff;
-  border-radius:11px;
-  padding:10px 18px;
-  margin:12px 0 9px;
-  font-size:24px;
-  font-weight:900;
-  text-align:left
+.balance-label{
+  font-size:14px;
 }
+
+.balance-value{
+  font-size:25px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.memberName{font-size:25px;font-weight:900}
+.memberId{font-size:15px;margin-top:3px}
+.balance{text-align:right}
+.balance-label{font-size:15px}
+.balance-value{font-size:27px;font-weight:900}
+
+.section-title{
+  border-radius:10px;
+  padding:8px 14px;
+  margin:8px 0;
+  color:white;
+  font-size:20px;
+  font-weight:900;
+  text-align:left;
+}
+.drinks-title,.cart-title{background:var(--marron)}
+.billard-title{background:var(--vert)}
 
 .products{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:10px
+  gap:8px;
 }
-
 .product{
-  background:#fff;
-  border:2px solid var(--border);
+  background:var(--blanc);
+  border:2px solid var(--bord);
   border-radius:13px;
-  padding:12px 7px;
-  min-height:108px;
-  font-size:18px;
-  color:#111;
-  box-shadow:none;
-  cursor:pointer
+  padding:7px 4px;
+  min-height:103px;
+  color:var(--texte);
+  box-shadow:0 2px 5px rgba(70,45,25,.08);
+  cursor:pointer;
+  font-family:Arial,sans-serif;
 }
-
-.product:active{
-  transform:scale(.98)
-}
-
+.product:active{transform:scale(.97)}
 .productIcon{
-  font-size:38px;
-  line-height:1;
-  margin-bottom:5px
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:37px;
+  margin-bottom:2px;
 }
-
-.productName{
-  font-weight:900
-}
-
-.productPrice{
-  margin-top:6px;
-  font-size:20px;
-  font-weight:900;
-  color:#086b36
-}
-
-/* BILLARD */
-
-.billiard-section{
-  margin-top:10px
-}
-
-.billiardTitle{
-  background:#168b4c!important
-}
+.productName{font-size:16px;font-weight:800;line-height:1.05}
+.productPrice{font-size:16px;font-weight:900;color:var(--vert);margin-top:5px}
 
 .billiard{
   width:100%;
-  background:#fff;
-  border:2px solid var(--border);
+  min-height:103px;
+  background:var(--blanc);
+  border:2px solid var(--bord);
   border-radius:13px;
-  padding:15px;
-  font-size:24px;
-  font-weight:900;
-  color:#111;
+  padding:7px 4px;
+  color:var(--texte);
+  box-shadow:0 2px 5px rgba(70,45,25,.08);
   cursor:pointer;
-  min-height:105px
+  font-family:Arial,sans-serif;
+  font-size:21px;
+  font-weight:900;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
 }
 
-.billiardIcon{
-  font-size:48px;
-  line-height:1;
-  display:block;
-  margin-bottom:5px
+.billiard-icon{
+  font-size:40px;
+  margin:0;
 }
-
-/* PANIER */
 
 .cart{
-  background:#fff;
-  border-radius:14px;
-  margin-top:13px;
-  padding:0 18px 18px;
-  box-shadow:0 2px 8px rgba(0,0,0,.12);
-  border:1px solid #ddd
+  background:var(--blanc);
+  border:2px solid var(--bord);
+  border-radius:13px;
+  overflow:hidden;
+  margin-top:9px;
 }
-
-.cartHeader{
-  background:var(--brown);
-  color:#fff;
-  margin:0 -18px 10px;
-  padding:10px 18px;
-  border-radius:13px 13px 0 0;
+.cart-head{
+  background:var(--marron);
+  color:white;
+  padding:8px 13px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  font-size:24px;
-  font-weight:900
-}
-
-.clearCart{
-  border:0;
-  background:transparent;
-  color:#fff;
-  font-size:18px;
-  font-weight:800;
-  cursor:pointer
-}
-
-.cartLine{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-bottom:1px solid #ddd;
-  padding:10px 0;
-  font-size:17px
-}
-
-.cartName{
-  text-align:left;
-  flex:1
-}
-
-.cartQty{
-  margin:0 10px;
-  font-weight:900
-}
-
-.cartPrice{
-  min-width:65px;
-  text-align:right
-}
-
-.remove{
-  margin-left:10px;
-  border:none;
-  background:#eee;
-  border-radius:6px;
-  padding:5px 8px;
-  cursor:pointer
-}
-
-.total{
-  font-size:25px;
-  font-weight:900;
-  margin-top:12px;
-  background:var(--green-light);
-  border-radius:11px;
-  padding:10px 14px;
-  display:flex;
-  justify-content:space-between;
-  text-align:left;
-  color:#075b32
-}
-
-.payRow{
-  display:grid;
-  grid-template-columns:1.9fr .9fr;
-  gap:10px
-}
-
-.payButton{
-  width:100%;
-  margin-top:12px;
-  padding:17px;
-  border:0;
-  border-radius:13px;
-  background:var(--green);
-  color:#fff;
-  font-size:22px;
-  font-weight:900;
-  cursor:pointer
-}
-
-.payButton:disabled{
-  background:#a7aaad;
-  cursor:default
-}
-
-.cancelButton{
-  width:100%;
-  margin-top:12px;
-  padding:15px;
-  border:2px solid var(--green-dark);
-  border-radius:13px;
-  background:#fff;
-  color:var(--green-dark);
   font-size:20px;
   font-weight:900;
-  cursor:pointer
 }
-
-#paymentMessage{
-  margin-top:12px;
-  font-size:18px;
-  font-weight:900
+.clear{
+  border:0;
+  background:transparent;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
 }
-
-/* TABLETTE */
-
-@media(max-width:700px){
-
-  main{
-    padding:12px 10px 22px
-  }
-
-  .brand{
-    gap:12px
-  }
-
-  .brandLogo{
-    min-width:auto
-  }
-
-  .brandLogoMain{
-    font-size:34px
-  }
-
-  .brandSub{
-    font-size:11px
-  }
-
-  .brandTitle{
-    padding-left:12px
-  }
-
-  .brandTitleMain{
-    font-size:25px
-  }
-
-  .brandTitleSub{
-    font-size:12px;
-    letter-spacing:3px
-  }
-
-  .memberName{
-    font-size:23px
-  }
-
-  .memberBalance{
-    font-size:17px;
-    padding-left:15px
-  }
-
-  .balance{
-    font-size:25px
-  }
-
-  .products{
-    grid-template-columns:repeat(2,1fr)
-  }
-
-  .payRow{
-    grid-template-columns:1fr
-  }
-
-  .sectionTitle{
-    font-size:21px
-  }
+.cartContent{padding:0 10px}
+.cartLine{
+  display:grid;
+  grid-template-columns:1fr 32px 42px 70px 32px;
+  gap:5px;
+  align-items:center;
+  border-bottom:1px solid #e5dfd5;
+  padding:6px 0;
+  font-size:16px;
 }
-
-@media(max-width:430px){
-
-  .brandTitle{
-    display:none
-  }
-
-  .brandLogo{
-    text-align:center
-  }
-
+.cartName{text-align:left;font-weight:bold}
+.cartQty{text-align:center;font-weight:bold}
+.cartPrice{text-align:right;font-weight:bold}
+.qty-btn,.remove{
+  border:0;
+  border-radius:50%;
+  width:29px;
+  height:29px;
+  cursor:pointer;
+  font-weight:bold;
+}
+.qty-btn{background:var(--vert-clair);color:var(--vert);font-size:19px}
+.remove{background:#eee;color:#333;font-size:18px}
+.cart-empty{padding:12px;color:#777}
+.total{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:var(--vert-clair);
+  color:var(--vert-fonce);
+  margin:0 10px 9px;
+  padding:8px 13px;
+  border-radius:10px;
+  font-size:23px;
+  font-weight:900;
+}
+.actions{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:9px;
+  padding:0 10px 10px;
+}
+.payButton,.cancelButton{
+  border-radius:12px;
+  padding:14px;
+  border:2px solid var(--vert);
+  font-size:19px;
+  font-weight:900;
+  cursor:pointer;
+}
+.payButton{background:var(--vert);color:white}
   .member{
-    grid-template-columns:1fr
-  }
-
-  .memberBalance{
-    border-left:0;
-    border-top:1px solid rgba(7,91,50,.25);
-    padding:8px 0 0;
-    margin-top:8px
-  }
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto auto;
+  align-items:center;
+  gap:12px;
 }
+
+.member > div:first-child{
+  min-width:0;
+}
+
+.balance{
+  white-space:nowrap;
+  text-align:right;
+}
+.payButton:disabled{background:#aaa;border-color:#aaa}
+.cancelButton{background:var(--blanc);color:var(--vert)}
+#paymentMessage{padding:0 10px 8px;font-size:17px;font-weight:bold}
+footer{
+  padding:5px 8px 9px;
+  font-size:14px;
+  letter-spacing:1px;
+  color:#4b433b;
+}
+
+/* écran tablette */
+@media(min-width:700px){
+  main{padding-top:8px}
+}
+
+/* petit écran */
+@media(max-width:600px){
+  .header-inner{gap:10px;justify-content:space-between}
+  .logo-mark{font-size:30px}
+  .logo-sub{display:none}
+  .title-block h1{font-size:23px}
+  .title-block div{font-size:10px;letter-spacing:2px}
+  .products{grid-template-columns:repeat(2,1fr)}
+  .memberName{font-size:20px}
+  .balance-value{font-size:22px}
+}
+
+/* BILLARD : même hauteur que les cases boissons */
+#billardBtn {
+  min-height: 110px;
+  height: 110px;
+}
+
 </style>
 </head>
 
 <body>
 
 <header>
-
-  <div class="brand">
-
-    <div class="brandLogo">
-
-      <div class="brandLogoMain">
-        CCA <span class="brandDots">••</span>
+  <div class="header-inner">
+    <div class="logo-block">
+      <div>
+        <div class="logo-mark">CCA <span class="logo-dots">●●●</span></div>
+        <div class="logo-sub">
+          Cercle des chefs d’atelier<br>
+          Billard • Carrom • Échecs
+        </div>
       </div>
-
-      <div class="brandSub">
-        Cercle des chefs d'atelier<br>
-        Billard · Carrom · Échecs
-      </div>
-
     </div>
 
-    <div class="brandTitle">
-
-      <div class="brandTitleMain">
-        <span class="g">CCA</span>
-        <span class="b">PAIEMENT</span>
-      </div>
-
-      <div class="brandTitleSub">
-        BOISSONS &amp; BILLARD
-      </div>
-
+    <div class="title-block">
+      <h1>CCA <span>PAIEMENT</span></h1>
+      <div>BOISSONS &amp; BILLARD</div>
     </div>
-
   </div>
-
 </header>
-
 
 <main>
 
+<!-- =========================
+     ÉTAPE 1 : SCANNER
+========================== -->
 <section id="scannerPage">
 
-  <div id="message">
-    Présentez votre QR code
-  </div>
+  <div class="panel scanner-panel">
 
-  <div id="scanner"></div>
+    <div class="scanner-title">
+      ▣ Présentez<br>votre QR code
+    </div>
 
-  <div id="scannerResult">
-    Initialisation de la caméra...
+    <div class="scanner-sub">
+      Placez le QR code devant la caméra
+    </div>
+
+    <div id="scanner"></div>
+
+    <div id="scannerResult">
+      Initialisation de la caméra...
+    </div>
+
   </div>
 
 </section>
 
 
+<!-- =========================
+     ÉTAPE 2 : PAIEMENT
+========================== -->
 <section id="paymentPage">
 
+  <div class="panel payment-panel">
 
-  <div class="member">
+    <div class="member">
 
-    <div>
-
-      <div id="memberName" class="memberName"></div>
-
-      <div class="memberIdLine">
-        Membre n° <span id="memberId"></span>
+      <div>
+        <div id="memberName" class="memberName"></div>
+        <div id="memberId" class="memberId"></div>
       </div>
+
+      <div class="balance">
+        <div class="balance-label">Solde</div>
+        <div id="memberBalance" class="balance-value"></div>
+      </div>
+</div>
+
+
+    <div class="section-title drinks-title">
+      🍷 BOISSONS
+    </div>
+
+
+    <div class="products">
+
+      <button class="product" onclick="ajouterProduit('Café',0.50)">
+        <div class="productIcon">☕</div>
+        <div class="productName">Café</div>
+        <div class="productPrice">0,50 €</div>
+      </button>
+
+      <button class="product" onclick="ajouterProduit('Thé',0.50)">
+        <div class="productIcon">🍵</div>
+        <div class="productName">Thé</div>
+        <div class="productPrice">0,50 €</div>
+      </button>
+
+      <button class="product" onclick="ajouterProduit('Eau plate',0.50)">
+        <div class="productIcon">💧</div>
+        <div class="productName">Eau plate</div>
+        <div class="productPrice">0,50 €</div>
+      </button>
+
+      <button class="product" onclick="ajouterProduit('Eau gazeuse',0.50)">
+        <div class="productIcon">💦</div>
+        <div class="productName">Eau gazeuse</div>
+        <div class="productPrice">0,50 €</div>
+      </button>
+
+      <button class="product" onclick="ajouterProduit('Leffe 50 cl',2.50)">
+        <div class="productIcon">🍺</div>
+        <div class="productName">Leffe 50 cl</div>
+        <div class="productPrice">2,50 €</div>
+      </button>
+
+      <button class="product" onclick="ajouterProduit('La Soyeuse 75 cl',9.00)">
+        <div class="productIcon">🍾</div>
+        <div class="productName">La Soyeuse<br>75 cl</div>
+        <div class="productPrice">9,00 €</div>
+      </button>
+
+      <button class="product" onclick="ajouterProduit('Vin verre',1.00)">
+        <div class="productIcon">🍷</div>
+        <div class="productName">Vin verre</div>
+        <div class="productPrice">1,00 €</div>
+      </button>
+
+      <button class="product" onclick="ajouterProduit('Vin carafe 50 cl',4.00)">
+        <div class="productIcon">🍷</div>
+        <div class="productName">Vin carafe<br>50 cl</div>
+        <div class="productPrice">4,00 €</div>
+      </button>
 
     </div>
 
-    <div class="memberBalance">
 
-      Solde :
-
-      <span id="memberBalance" class="balance"></span>
-
+    <div class="section-title billard-title">
+      🎱 BILLARD
     </div>
 
-  </div>
-
-
-  <div class="sectionTitle">
-    🍷 &nbsp; BOISSONS
-  </div>
-
-
-  <div class="products">
-
-
-    <button
-      class="product"
-      onclick="ajouterProduit('Café',0.50)">
-
-      <div class="productIcon">☕</div>
-
-      <div class="productName">
-        Café
-      </div>
-
-      <div class="productPrice">
-        0,50 €
-      </div>
-
-    </button>
-
-
-    <button
-      class="product"
-      onclick="ajouterProduit('Thé',0.50)">
-
-      <div class="productIcon">🍵</div>
-
-      <div class="productName">
-        Thé
-      </div>
-
-      <div class="productPrice">
-        0,50 €
-      </div>
-
-    </button>
-
-
-    <button
-      class="product"
-      onclick="ajouterProduit('Eau plate',0.50)">
-
-      <div class="productIcon">💧</div>
-
-      <div class="productName">
-        Eau plate
-      </div>
-
-      <div class="productPrice">
-        0,50 €
-      </div>
-
-    </button>
-
-
-    <button
-      class="product"
-      onclick="ajouterProduit('Eau gazeuse',0.50)">
-
-      <div class="productIcon">💦</div>
-
-      <div class="productName">
-        Eau gazeuse
-      </div>
-
-      <div class="productPrice">
-        0,50 €
-      </div>
-
-    </button>
-
-
-    <button
-      class="product"
-      onclick="ajouterProduit('Leffe 50 cl',2.50)">
-
-      <div class="productIcon">🍺</div>
-
-      <div class="productName">
-        Leffe 50 cl
-      </div>
-
-      <div class="productPrice">
-        2,50 €
-      </div>
-
-    </button>
-
-
-    <button
-      class="product"
-      onclick="ajouterProduit('La Soyeuse 75 cl',9.00)">
-
-      <div class="productIcon">🍾</div>
-
-      <div class="productName">
-        La Soyeuse<br>
-        75 cl
-      </div>
-
-      <div class="productPrice">
-        9,00 €
-      </div>
-
-    </button>
-
-
-    <button
-      class="product"
-      onclick="ajouterProduit('Vin verre',1.00)">
-
-      <div class="productIcon">🍷</div>
-
-      <div class="productName">
-        Vin verre
-      </div>
-
-      <div class="productPrice">
-        1,00 €
-      </div>
-
-    </button>
-
-
-    <button
-      class="product"
-      onclick="ajouterProduit('Vin carafe 50 cl',4.00)">
-
-      <div class="productIcon">🍷</div>
-
-      <div class="productName">
-        Vin carafe<br>
-        50 cl
-      </div>
-
-      <div class="productPrice">
-        4,00 €
-      </div>
-
-    </button>
-
-  </div>
-
-
-  <div class="billiard-section">
-
-    <div class="sectionTitle billiardTitle">
-      🎱 &nbsp; BILLARD
-    </div>
-
-    <button
-      class="billiard"
-      onclick="ajouterProduit('Billard',3.00)">
-
-      <span class="billiardIcon">
-        🎱
-      </span>
-
+    <button class="billiard" onclick="ajouterProduit('Billard',3.00)">
+      <span class="billiard-icon">🎱</span>
       Billard — 3,00 €
-
     </button>
 
-  </div>
 
+    <div class="cart">
 
-  <div class="cart">
+      <div class="cart-head">
+        <span>🛒 PANIER</span>
+        <button class="clear" onclick="viderPanier()">🗑 Vider</button>
+      </div>
 
-    <div class="cartHeader">
+      <div id="cartContent" class="cartContent">
+        <div class="cart-empty">Aucun article</div>
+      </div>
 
-      <span>
-        🛒 &nbsp; PANIER
-      </span>
+      <div class="total">
+        <span>Total</span>
+        <span id="cartTotal">0,00 €</span>
+      </div>
 
-      <button
-        class="clearCart"
-        onclick="viderPanier()">
+      <div class="actions">
+        <button id="payButton" class="payButton" onclick="payer()" disabled>
+          ✓ VALIDER LE PAIEMENT
+        </button>
 
-        🗑 &nbsp; Vider
+        <button class="cancelButton" onclick="annulerPaiement()">
+          ✕ ANNULER
+        </button>
+      </div>
 
-      </button>
-
-    </div>
-
-
-    <div id="cartContent">
-      Aucun article
-    </div>
-
-
-    <div class="total">
-
-      <span>
-        Total
-      </span>
-
-      <span id="cartTotal">
-        0,00 €
-      </span>
+      <div id="paymentMessage"></div>
 
     </div>
-
-
-    <div class="payRow">
-
-      <button
-        id="payButton"
-        class="payButton"
-        onclick="payer()"
-        disabled>
-
-        ✓ &nbsp; VALIDER LE PAIEMENT
-
-      </button>
-
-
-      <button
-        class="cancelButton"
-        onclick="annulerPaiement()">
-
-        ✕ &nbsp; ANNULER
-
-      </button>
-
-    </div>
-
-
-    <div id="paymentMessage"></div>
 
   </div>
-
 
 </section>
 
 </main>
 
 
+
+
 <script>
 
 const APP_URL =
-"https://script.google.com/macros/s/AKfycbyLwHdP9lETK6d0Y6u8_jhdBlNgKoJZCDxu2RvFKiJ6Ymqyi4GEfsE3UJf1P95GjignMg/exec";
-
+  "https://script.google.com/macros/s/AKfycbyLwHdP9lETK6d0Y6u8_jhdBlNgKoJZCDxu2RvFKiJ6Ymqyi4GEfsE3UJf1P95GjignMg/exec";
 
 let scanner = null;
 let scanEnCours = false;
@@ -811,11 +533,9 @@ let panier = [];
 
 
 function euro(montant) {
-
   return Number(montant)
     .toFixed(2)
     .replace(".", ",") + " €";
-
 }
 
 
@@ -828,93 +548,80 @@ function appelerApi(parametres, callback) {
     Math.floor(Math.random() * 100000);
 
   let termine = false;
-
-  const script =
-    document.createElement("script");
-
+  let script = document.createElement("script");
   let timeout;
 
+  window[nomCallback] = function(data) {
 
-  window[nomCallback] =
-    function(data) {
+    if (termine) return;
 
-      if (termine) return;
+    termine = true;
 
-      termine = true;
+    delete window[nomCallback];
 
-      delete window[nomCallback];
+    if (script.parentNode) {
+      script.parentNode.removeChild(script);
+    }
 
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
+    clearTimeout(timeout);
 
-      clearTimeout(timeout);
-
-      callback(data);
-
-    };
+    callback(data);
+  };
 
 
   const params =
     new URLSearchParams(parametres);
 
-  params.set(
-    "callback",
-    nomCallback
-  );
+  params.set("callback", nomCallback);
 
 
   script.src =
-    APP_URL +
-    "?" +
-    params.toString();
+    APP_URL + "?" + params.toString();
 
 
-  script.onerror =
-    function() {
+  script.onerror = function() {
 
-      if (termine) return;
+    if (termine) return;
 
-      termine = true;
+    termine = true;
 
-      delete window[nomCallback];
+    delete window[nomCallback];
 
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
+    if (script.parentNode) {
+      script.parentNode.removeChild(script);
+    }
 
-      clearTimeout(timeout);
+    clearTimeout(timeout);
 
-      callback({
-        status:"ERROR",
-        message:"Impossible de contacter le serveur"
-      });
+    callback({
+      status: "ERROR",
+      message: "Impossible de contacter le serveur"
+    });
 
-    };
+  };
 
 
   document.body.appendChild(script);
 
 
-  timeout =
-    setTimeout(function() {
+  timeout = setTimeout(function() {
 
-      if (termine) return;
+    if (termine) return;
 
-      termine = true;
+    termine = true;
 
-      delete window[nomCallback];
+    delete window[nomCallback];
 
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
+    if (script.parentNode) {
+      script.parentNode.removeChild(script);
+    }
 
-      callback({
-        status:"ERROR",
-        message:"Le serveur ne répond pas"
-      });
+    callback({
+      status: "ERROR",
+      message: "Le serveur ne répond pas"
+    });
 
-    },15000);
+  }, 15000);
 
 }
 
@@ -945,13 +652,10 @@ function trouverId(texte) {
       return id.toUpperCase();
     }
 
-  }
-
-  catch(e) {}
+  } catch(e) {}
 
 
   return null;
-
 }
 
 
@@ -969,12 +673,9 @@ function qrDetecte(texte) {
     document.getElementById(
       "scannerResult"
     ).innerHTML =
-      '<span class="error">' +
-      "QR code non reconnu" +
-      "</span>";
+      '<span class="error">QR code non reconnu</span>';
 
     return;
-
   }
 
 
@@ -982,24 +683,16 @@ function qrDetecte(texte) {
 
 
   document.getElementById(
-    "message"
-  ).textContent =
-    "Identification en cours...";
-
-
-  document.getElementById(
     "scannerResult"
   ).innerHTML =
     '<span class="ok">Membre : ' +
     id +
-    "</span>";
+    '</span>';
 
 
   arreterScanner()
     .then(function() {
-
       rechercherMembre(id);
-
     });
 
 }
@@ -1009,8 +702,8 @@ function rechercherMembre(id) {
 
   appelerApi(
     {
-      api:"getMember",
-      id:id
+      api: "getMember",
+      id: id
     },
     function(resultat) {
 
@@ -1031,9 +724,7 @@ function rechercherMembre(id) {
           ) +
           "</span>";
 
-
         scanEnCours = false;
-
 
         setTimeout(
           demarrerScanner,
@@ -1041,14 +732,13 @@ function rechercherMembre(id) {
         );
 
         return;
-
       }
 
 
       membre = {
-        id:resultat.id,
-        nom:resultat.nom,
-        solde:Number(resultat.solde)
+        id: resultat.id,
+        nom: resultat.nom,
+        solde: Number(resultat.solde)
       };
 
 
@@ -1084,7 +774,7 @@ function afficherPaiement() {
   document.getElementById(
     "memberId"
   ).textContent =
-    membre.id;
+    "Membre n° " + membre.id;
 
 
   document.getElementById(
@@ -1103,10 +793,7 @@ function afficherPaiement() {
 }
 
 
-function ajouterProduit(
-  produit,
-  prix
-) {
+function ajouterProduit(produit, prix) {
 
   const existant =
     panier.find(function(item) {
@@ -1115,19 +802,13 @@ function ajouterProduit(
 
 
   if (existant) {
-
     existant.quantite++;
-
-  }
-
-  else {
-
+  } else {
     panier.push({
-      produit:produit,
-      prix:prix,
-      quantite:1
+      produit: produit,
+      prix: prix,
+      quantite: 1
     });
-
   }
 
 
@@ -1150,12 +831,8 @@ function retirerProduit(produit) {
   panier[index].quantite--;
 
 
-  if (
-    panier[index].quantite <= 0
-  ) {
-
-    panier.splice(index,1);
-
+  if (panier[index].quantite <= 0) {
+    panier.splice(index, 1);
   }
 
 
@@ -1169,97 +846,6 @@ function viderPanier() {
   panier = [];
 
   afficherPanier();
-
-}
-
-
-function afficherPanier() {
-
-  const contenu =
-    document.getElementById(
-      "cartContent"
-    );
-
-  const totalElement =
-    document.getElementById(
-      "cartTotal"
-    );
-
-  const bouton =
-    document.getElementById(
-      "payButton"
-    );
-
-
-  if (panier.length === 0) {
-
-    contenu.innerHTML =
-      "Aucun article";
-
-    totalElement.textContent =
-      "0,00 €";
-
-    bouton.disabled = true;
-
-    return;
-
-  }
-
-
-  let total = 0;
-
-  let html = "";
-
-
-  panier.forEach(function(item) {
-
-    const montant =
-      item.prix *
-      item.quantite;
-
-    total += montant;
-
-
-    html +=
-      '<div class="cartLine">' +
-
-        '<div class="cartName">' +
-          item.produit +
-        "</div>" +
-
-        '<div class="cartQty">' +
-          "× " +
-          item.quantite +
-        "</div>" +
-
-        '<div class="cartPrice">' +
-          euro(montant) +
-        "</div>" +
-
-        '<button class="remove" ' +
-          'onclick="retirerProduit(\'' +
-          item.produit.replace(
-            /'/g,
-            "\\'"
-          ) +
-          "')\">" +
-          "−" +
-        "</button>" +
-
-      "</div>";
-
-  });
-
-
-  contenu.innerHTML =
-    html;
-
-
-  totalElement.textContent =
-    euro(total);
-
-
-  bouton.disabled = false;
 
 }
 
@@ -1285,11 +871,105 @@ function calculerTotal() {
 }
 
 
+function afficherPanier() {
+
+  const contenu =
+    document.getElementById(
+      "cartContent"
+    );
+
+  const totalElement =
+    document.getElementById(
+      "cartTotal"
+    );
+
+  const bouton =
+    document.getElementById(
+      "payButton"
+    );
+
+
+  if (panier.length === 0) {
+
+    contenu.innerHTML =
+      '<div class="cart-empty">Aucun article</div>';
+
+    totalElement.textContent =
+      "0,00 €";
+
+    bouton.disabled = true;
+
+    return;
+  }
+
+
+  let total = 0;
+  let html = "";
+
+
+  panier.forEach(function(item) {
+
+    const montant =
+      item.prix *
+      item.quantite;
+
+
+    total += montant;
+
+
+    const produitEncode =
+      item.produit
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'");
+
+
+    html +=
+      '<div class="cartLine">' +
+
+        '<div class="cartName">' +
+          item.produit +
+        '</div>' +
+
+        '<button class="qty-btn" ' +
+          'onclick="retirerProduit(\'' +
+          produitEncode +
+          '\')">−</button>' +
+
+        '<div class="cartQty">' +
+          item.quantite +
+        '</div>' +
+
+        '<div class="cartPrice">' +
+          euro(montant) +
+        '</div>' +
+
+        '<button class="remove" ' +
+          'onclick="retirerProduit(\'' +
+          produitEncode +
+          '\')">×</button>' +
+
+      '</div>';
+
+  });
+
+
+  contenu.innerHTML = html;
+
+
+  totalElement.textContent =
+    euro(total);
+
+
+  bouton.disabled = false;
+
+}
+
+
 function payer() {
 
-  if (!membre) return;
-
-  if (panier.length === 0) return;
+  if (!membre || panier.length === 0) {
+    return;
+  }
 
 
   const total =
@@ -1301,12 +981,9 @@ function payer() {
     document.getElementById(
       "paymentMessage"
     ).innerHTML =
-      '<span class="error">' +
-      "Solde insuffisant" +
-      "</span>";
+      '<span class="error">Solde insuffisant</span>';
 
     return;
-
   }
 
 
@@ -1332,8 +1009,8 @@ function payer() {
     panier.map(function(item) {
 
       return {
-        produit:item.produit,
-        quantite:item.quantite
+        produit: item.produit,
+        quantite: item.quantite
       };
 
     });
@@ -1341,9 +1018,9 @@ function payer() {
 
   appelerApi(
     {
-      api:"debit",
-      id:membre.id,
-      items:JSON.stringify(items)
+      api: "debit",
+      id: membre.id,
+      items: JSON.stringify(items)
     },
     function(resultat) {
 
@@ -1355,7 +1032,7 @@ function payer() {
         bouton.disabled = false;
 
         bouton.textContent =
-          "✓  VALIDER LE PAIEMENT";
+          "✓ VALIDER LE PAIEMENT";
 
 
         document.getElementById(
@@ -1371,7 +1048,6 @@ function payer() {
           "</span>";
 
         return;
-
       }
 
 
@@ -1387,19 +1063,18 @@ function payer() {
         '<span class="ok">' +
         "Paiement accepté : " +
         euro(resultat.total) +
-        "<br>" +
-        "Nouveau solde : " +
+        "<br>Nouveau solde : " +
         euro(resultat.nouveauSolde) +
         "</span>";
 
 
       bouton.textContent =
-        "PAIEMENT ACCEPTÉ";
+        "✓ PAIEMENT ACCEPTÉ";
 
 
       setTimeout(
         retourScanner,
-        2000
+        1800
       );
 
     }
@@ -1418,7 +1093,6 @@ function annulerPaiement() {
 function retourScanner() {
 
   membre = null;
-
   panier = [];
 
 
@@ -1430,12 +1104,6 @@ function retourScanner() {
   document.getElementById(
     "scannerPage"
   ).style.display = "block";
-
-
-  document.getElementById(
-    "message"
-  ).textContent =
-    "Présentez votre QR code";
 
 
   document.getElementById(
@@ -1453,12 +1121,7 @@ function retourScanner() {
   bouton.disabled = true;
 
   bouton.textContent =
-    "✓  VALIDER LE PAIEMENT";
-
-
-  document.getElementById(
-    "paymentMessage"
-  ).textContent = "";
+    "✓ VALIDER LE PAIEMENT";
 
 
   scanEnCours = false;
@@ -1482,6 +1145,7 @@ function arreterScanner() {
   const ancienScanner =
     scanner;
 
+
   scanner = null;
 
 
@@ -1491,18 +1155,14 @@ function arreterScanner() {
 
       try {
         ancienScanner.clear();
-      }
-
-      catch(e) {}
+      } catch(e) {}
 
     })
     .catch(function() {
 
       try {
         ancienScanner.clear();
-      }
-
-      catch(e) {}
+      } catch(e) {}
 
     });
 
@@ -1530,14 +1190,11 @@ function demarrerScanner() {
 
 
   const configuration = {
-
-    fps:10,
-
-    qrbox:{
-      width:250,
-      height:250
+    fps: 10,
+    qrbox: {
+      width: 250,
+      height: 250
     }
-
   };
 
 
@@ -1545,30 +1202,26 @@ function demarrerScanner() {
     {facingMode:"user"},
     configuration,
     qrDetecte,
-    function() {}
-
+    function(){}
   )
-
   .then(function() {
 
     document.getElementById(
       "scannerResult"
     ).innerHTML =
-      '<span class="ok">' +
-      "Caméra avant active" +
-      "</span>";
+      '<span class="ok">● Caméra avant active</span>';
 
   })
-
   .catch(function(erreur) {
 
     scanner = null;
+
 
     document.getElementById(
       "scannerResult"
     ).innerHTML =
       '<span class="error">' +
-      "Impossible d'accéder à la caméra.<br>" +
+      "Impossible d’accéder à la caméra.<br>" +
       erreur +
       "</span>";
 
@@ -1577,18 +1230,9 @@ function demarrerScanner() {
 }
 
 
-window.addEventListener(
-  "load",
-  function() {
-
-    setTimeout(
-      demarrerScanner,
-      500
-    );
-
-  }
-);
-
+window.addEventListener("load", function() {
+  setTimeout(demarrerScanner, 500);
+});
 </script>
 
 </body>
