@@ -99,6 +99,11 @@ main{max-width:1180px;margin:auto;padding:10px}
   overflow:hidden;
 }
 #scannerResult{margin:14px;font-size:17px}
+
+/* Affichage naturel de la caméra avant : gauche/droite non inversés */
+#scanner video{
+  transform:scaleX(-1);
+}
 .ok{color:var(--vert);font-weight:bold}
 .error{color:#b3261e;font-weight:bold}
 
