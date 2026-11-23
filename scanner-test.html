@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCA Scanner TEST - Veille</title>
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+  --vert:#1f5a3a;
+  --vert-fonce:#17492e;
+  --vert-clair:#dcefd3;
+  --marron:#6b3f24;
+  --creme:#f5f1e8;
+  --blanc:#fffdf8;
+  --bord:#ddd5c8;
+  --texte:#2e2a25;
+}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  background:var(--creme);
+  color:var(--texte);
+  font-family:Arial,sans-serif
+}
+
+body{text-align:center}
+
+header{
+  background:var(--blanc);
+  padding:8px 16px 7px;
+  border-bottom:4px solid var(--vert);
+}
+
+.header-inner{
+  max-width:1180px;
+  margin:auto;
+  min-height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:55px;
+}
+
+.logo-block{display:flex;align-items:center}
+
+.logo-mark{
+  color:var(--vert);
+  font-size:42px;
+  line-height:.85;
+  font-weight:900;
+  letter-spacing:-3px;
+  white-space:nowrap
+}
+
+.logo-dots{
+  font-size:21px;
+  letter-spacing:-6px;
+  color:var(--marron);
+  vertical-align:top
+}
+
+.logo-sub{
+  color:var(--marron);
+  font-size:12px;
+  font-weight:bold;
+  line-height:1.25;
+  margin-top:5px
+}
+
+.title-block{text-align:left}
+
+.title-block h1{
+  margin:0;
+  color:var(--vert);
+  font-size:34px;
+  letter-spacing:1px
+}
+
+.title-block h1 span{color:var(--marron)}
+
+.title-block div{
+  margin-top:2px;
+  color:var(--vert);
+  font-size:14px;
+  font-weight:bold;
+  letter-spacing:5px
+}
+
+main{
+  max-width:1180px;
+  margin:auto;
+  padding:10px
+}
+
+.panel{
+  background:rgba(255,253,248,.95);
+  border:1px solid var(--bord);
+  border-radius:17px;
+  box-shadow:0 2px 8px rgba(70,45,25,.08)
+}
+
+/* SCANNER */
+
+#scannerPage{display:block}
+
+.scanner-panel{
+  max-width:650px;
+  margin:20px auto;
+  padding:22px
+}
+
+.scanner-title{
+  color:var(--vert);
+  font-size:32px;
+  line-height:1.05;
+  font-weight:900;
+  margin-bottom:8px
+}
+
+.scanner-sub{
+  font-size:18px;
+  margin-bottom:15px
+}
+
+#scanner{
+  width:min(90vw,560px);
+  margin:auto;
+  background:#111;
+  border-radius:15px;
+  overflow:hidden
+}
+
+#scanner video{transform:scaleX(-1)}
+
+
+#scannerResult{
+  margin:14px;
+  font-size:17px
+}
+
+.ok{
+  color:var(--vert);
+  font-weight:bold
+}
+
+.error{
+  color:#b3261e;
+  font-weight:bold
+}
+
+/* PAIEMENT */
+
+#paymentPage{display:none}
+
+.payment-panel{padding:12px}
+
+.member{
+  background:var(--vert-clair);
+  color:var(--vert-fonce);
+  border-radius:13px;
+  padding:10px 14px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:12px;
+  text-align:left;
+  margin-bottom:9px
+}
+
+.member > div:first-child{
+  min-width:0
+}
+
+.memberName{
+  font-size:25px;
+  font-weight:900;
+  white-space:nowrap
+}
+
+.memberId{
+  font-size:15px;
+  margin-top:3px
+}
+
+.balance{
+  text-align:right;
+  white-space:nowrap
+}
+
+.balance-label{
+  font-size:14px
+}
+
+.balance-value{
+  font-size:25px;
+  font-weight:900;
+  white-space:nowrap
+}
+
+.section-title{
+  border-radius:10px;
+  padding:8px 14px;
+  margin:8px 0;
+  color:white;
+  font-size:20px;
+  font-weight:900;
+  text-align:left
+}
+
+.drinks-title,.cart-title{
+  background:var(--marron)
+}
+
+.billard-title{
+  background:var(--vert)
+}
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:7px
+}
+
+.product{
+  background:var(--blanc);
+  border:1px solid var(--bord);
+  border-radius:11px;
+  padding:5px 3px;
+  min-height:78px;
+  color:var(--texte);
+  box-shadow:0 2px 5px rgba(70,45,25,.08);
+  cursor:pointer;
+  font-family:Arial,sans-serif
+}
+
+.product:active{
+  transform:scale(.97)
+}
+
+.productIcon{
+  height:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:27px;
+  margin-bottom:1px
+}
+
+.productName{
+  font-size:14px;
+  font-weight:800;
+  line-height:1.05
+}
+
+.productPrice{
+  font-size:14px;
+  font-weight:900;
+  color:var(--vert);
+  margin-top:3px
+}
+
+.billiard{
+  width:100%;
+  min-height:110px;
+  height:110px;
+  background:var(--blanc);
+  border:2px solid var(--bord);
+  border-radius:13px;
+  padding:7px 4px;
+  color:var(--texte);
+  box-shadow:0 2px 5px rgba(70,45,25,.08);
+  cursor:pointer;
+  font-family:Arial,sans-serif;
+  font-size:21px;
+  font-weight:900;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px
+}
+
+.billiard:active{
+  transform:scale(.97)
+}
+
+.billiard-icon{
+  font-size:40px;
+  margin:0
+}
+
+.cart{
+  background:var(--blanc);
+  border:2px solid var(--bord);
+  border-radius:13px;
+  overflow:hidden;
+  margin-top:9px
+}
+
+.cart-head{
+  background:var(--marron);
+  color:white;
+  padding:8px 13px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:20px;
+  font-weight:900
+}
+
+.clear{
+  border:0;
+  background:transparent;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer
+}
+
+.cartContent{
+  padding:0 10px
+}
+
+.cartLine{
+  display:grid;
+  grid-template-columns:1fr 32px 42px 70px 32px;
+  gap:5px;
+  align-items:center;
+  border-bottom:1px solid #e5dfd5;
+  padding:6px 0;
+  font-size:16px
+}
+
+.cartName{
+  text-align:left;
+  font-weight:bold
+}
+
+.cartQty{
+  text-align:center;
+  font-weight:bold
+}
+
+.cartPrice{
+  text-align:right;
+  font-weight:bold
+}
+
+.qty-btn,.remove{
+  border:0;
+  border-radius:50%;
+  width:29px;
+  height:29px;
+  cursor:pointer;
+  font-weight:bold
+}
+
+.qty-btn{
+  background:var(--vert-clair);
+  color:var(--vert);
+  font-size:19px
+}
+
+.remove{
+  background:#eee;
+  color:#333;
+  font-size:18px
+}
+
+.cart-empty{
+  padding:12px;
+  color:#777
+}
+
+.total{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:var(--vert-clair);
+  color:var(--vert-fonce);
+  margin:0 10px 9px;
+  padding:8px 13px;
+  border-radius:10px;
+  font-size:23px;
+  font-weight:900
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:9px;
+  padding:0 10px 10px
+}
+
+.payButton,.cancelButton{
+  border-radius:12px;
+  padding:14px;
+  border:2px solid var(--vert);
+  font-size:19px;
+  font-weight:900;
+  cursor:pointer
+}
+
+.payButton{
+  background:var(--vert);
+  color:white
+}
+
+.payButton:disabled{
+  background:#aaa;
+  border-color:#aaa
+}
+
+.cancelButton{
+  background:var(--blanc);
+  color:var(--vert)
+}
+
+#paymentMessage{
+  padding:0 10px 8px;
+  font-size:17px;
+  font-weight:bold
+}
+
+/* écran tablette */
+
+@media(min-width:700px){
+  main{padding-top:8px}
+}
+
+/* petit écran */
+
+@media(max-width:600px){
+  .header-inner{
+    gap:10px;
+    justify-content:space-between
+  }
+
+  .logo-mark{font-size:30px}
+  .logo-sub{display:none}
+
+  .title-block h1{font-size:23px}
+
+  .title-block div{
+    font-size:10px;
+    letter-spacing:2px
+  }
+
+  .products{
+    grid-template-columns:repeat(2,1fr)
+  }
+
+  .memberName{font-size:20px}
+  .balance-value{font-size:22px}
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+
+    <div class="logo-block">
+      <div>
+        <div class="logo-mark">
+          CCA <span class="logo-dots">●●●</span>
+        </div>
+
+        <div class="logo-sub">
+          Cercle des chefs d’atelier<br>
+          Billard • Carrom • Échecs
+        </div>
+      </div>
+    </div>
+
+    <div class="title-block">
+      <h1>CCA <span>PAIEMENT</span></h1>
+      <div>BOISSONS &amp; BILLARD</div>
+    </div>
+
+  </div>
+</header>
+
+
+<main>
+
+  <!-- =========================
+       ÉTAPE 1 : SCANNER
+  ========================== -->
+
+  <section id="scannerPage">
+
+    <div class="panel scanner-panel">
+
+      <div class="scanner-title">
+        ▣ Présentez<br>votre QR code
+      </div>
+
+      <div class="scanner-sub">
+        Placez le QR code devant la caméra
+      </div>
+
+      <div id="scanner"></div>
+
+      <div id="scannerResult">
+        Initialisation de la caméra...
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       ÉTAPE 2 : PAIEMENT
+  ========================== -->
+
+  <section id="paymentPage">
+
+    <div class="panel payment-panel">
+
+      <div class="member">
+
+        <div>
+          <div id="memberName" class="memberName"></div>
+          <div id="memberId" class="memberId"></div>
+        </div>
+
+        <div class="balance">
+          <div class="balance-label">Solde</div>
+          <div id="memberBalance" class="balance-value"></div>
+        </div>
+
+      </div>
+
+
+      <div class="section-title drinks-title">
+        🍷 BOISSONS
+      </div>
+
+
+      <div class="products">
+
+        <button class="product"
+                onclick="ajouterProduit('Café',0.50)">
+          <div class="productIcon">☕</div>
+          <div class="productName">Café</div>
+          <div class="productPrice">0,50 €</div>
+        </button>
+
+        <button class="product"
+                onclick="ajouterProduit('Thé',0.50)">
+          <div class="productIcon">🍵</div>
+          <div class="productName">Thé</div>
+          <div class="productPrice">0,50 €</div>
+        </button>
+
+        <button class="product"
+                onclick="ajouterProduit('Soda',1.50)">
+          <div class="productIcon">🥤</div>
+          <div class="productName">Soda</div>
+          <div class="productPrice">1,50 €</div>
+        </button>
+
+        <button class="product"
+                onclick="ajouterProduit('Jus de fruit',1.50)">
+          <div class="productIcon">🧃</div>
+          <div class="productName">Jus de fruit</div>
+          <div class="productPrice">1,50 €</div>
+        </button>
+
+        <button class="product"
+                onclick="ajouterProduit('Bière 33 cl',1.50)">
+          <div class="productIcon">🍺</div>
+          <div class="productName">Bière 33 cl</div>
+          <div class="productPrice">1,50 €</div>
+        </button>
+
+        <button class="product"
+                onclick="ajouterProduit('Bière sans alcool',1.50)">
+          <div class="productIcon">🍺</div>
+          <div class="productName">Bière sans alcool</div>
+          <div class="productPrice">1,50 €</div>
+        </button>
+
+        <button class="product"
+                onclick="ajouterProduit('Bière 50 cl',2.50)">
+          <div class="productIcon">🍺</div>
+          <div class="productName">Bière 50 cl</div>
+          <div class="productPrice">2,50 €</div>
+        </button>
+
+        <button class="product"
+                onclick="ajouterProduit('Bière 75 cl',9.00)">
+          <div class="productIcon">🍾</div>
+          <div class="productName">Bière 75 cl</div>
+          <div class="productPrice">9,00 €</div>
+        </button>
+
+        <button class="product"
+                onclick="ajouterProduit('Verre de vin',1.00)">
+          <div class="productIcon">🍷</div>
+          <div class="productName">Verre de vin</div>
+          <div class="productPrice">1,00 €</div>
+        </button>
+
+        <button class="product"
+                onclick="ajouterProduit('Carafe de vin (50 cl)',4.00)">
+          <div class="productIcon">🍷</div>
+          <div class="productName">Carafe de vin<br>(50 cl)</div>
+          <div class="productPrice">4,00 €</div>
+        </button>
+
+      </div>
+
+
+      <div class="section-title billard-title">
+        🎱 BILLARD
+      </div>
+
+      <button class="billiard"
+              onclick="ajouterProduit('Billard',3.00)">
+        <span class="billiard-icon">🎱</span>
+        Billard — 3,00 €
+      </button>
+
+
+      <div class="cart">
+
+        <div class="cart-head">
+          <span>🛒 PANIER</span>
+          <button class="clear"
+                  onclick="viderPanier()">
+            🗑 Vider
+          </button>
+        </div>
+
+        <div id="cartContent"
+             class="cartContent">
+          <div class="cart-empty">
+            Aucun article
+          </div>
+        </div>
+
+        <div class="total">
+          <span>Total</span>
+          <span id="cartTotal">0,00 €</span>
+        </div>
+
+        <div class="actions">
+
+          <button id="payButton"
+                  class="payButton"
+                  onclick="payer()"
+                  disabled>
+            ✓ VALIDER LE PAIEMENT
+          </button>
+
+          <button class="cancelButton"
+                  onclick="annulerPaiement()">
+            ✕ ANNULER
+          </button>
+
+        </div>
+
+        <div id="paymentMessage"></div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<div id="veille" style="display:none;position:fixed;inset:0;background:#000;color:#fff;z-index:99999;align-items:center;justify-content:center;flex-direction:column;font-family:Arial,sans-serif;cursor:pointer;">
+  <div style="font-size:38px;font-weight:bold;letter-spacing:2px">CCA</div>
+  <div style="font-size:22px;margin-top:18px">Touchez l’écran pour commencer</div>
+</div>
+
+<script>
+
+const APP_URL =
+  "https://script.google.com/macros/s/AKfycbyLwHdP9lETK6d0Y6u8_jhdBlNgKoJZCDxu2RvFKiJ6Ymqyi4GEfsE3UJf1P95GjignMg/exec";
+
+let scanner = null;
+let scanEnCours = false;
+let membre = null;
+let panier = [];
+
+// Veille de test : 2 minutes d'inactivité
+const DELAI_VEILLE = 120000;
+let minuterieVeille = null;
+let surveillanceVideo = null;
+let dernierTempsVideo = -1;
+let tempsBlocageVideo = 0;
+let repriseEnCours = false;
+
+function reinitialiserVeille(){
+  if (minuterieVeille) clearTimeout(minuterieVeille);
+  if (document.getElementById("veille").style.display !== "none") return;
+  minuterieVeille = setTimeout(entrerEnVeille, DELAI_VEILLE);
+}
+
+function entrerEnVeille(){
+  if (document.getElementById("paymentPage").style.display === "block") return;
+  arreterScanner().then(function(){
+    document.getElementById("veille").style.display = "flex";
+  });
+}
+
+function reveillerScanner(){
+  document.getElementById("veille").style.display = "none";
+  document.getElementById("scannerResult").innerHTML = "Réactivation de la caméra...";
+  scanEnCours = false;
+  demarrerScanner();
+  reinitialiserVeille();
+}
+
+function surveillerFluxVideo(){
+  if (surveillanceVideo) clearInterval(surveillanceVideo);
+  surveillanceVideo = setInterval(function(){
+    if (!scanner || document.hidden || document.getElementById("veille").style.display !== "none") return;
+    const video = document.querySelector("#scanner video");
+    if (!video || video.readyState < 2) return;
+    if (video.currentTime === dernierTempsVideo){
+      tempsBlocageVideo++;
+    } else {
+      dernierTempsVideo = video.currentTime;
+      tempsBlocageVideo = 0;
+    }
+    if (tempsBlocageVideo >= 8 && !repriseEnCours){
+      repriseEnCours = true;
+      document.getElementById("scannerResult").innerHTML = '<span class="error">Caméra bloquée : redémarrage...</span>';
+      arreterScanner().then(function(){
+        setTimeout(function(){demarrerScanner(); repriseEnCours=false;},1000);
+      });
+      tempsBlocageVideo = 0;
+    }
+  },1000);
+}
+
+["touchstart","click","keydown"].forEach(function(evenement){
+  document.addEventListener(evenement,function(){
+    if (document.getElementById("veille").style.display === "none") reinitialiserVeille();
+  },{passive:true});
+});
+
+document.getElementById("veille").addEventListener("click",reveillerScanner);
+document.getElementById("veille").addEventListener("touchstart",function(e){e.preventDefault();reveillerScanner();},{passive:false});
+
+
+// =====================================================
+// FORMATAGE EURO
+// =====================================================
+
+function euro(montant) {
+  return Number(montant)
+    .toFixed(2)
+    .replace(".", ",") + " €";
+}
+
+
+// =====================================================
+// APPEL API JSONP
+// =====================================================
+
+function appelerApi(parametres, callback) {
+
+  const nomCallback =
+    "ccaCallback_" +
+    Date.now() +
+    "_" +
+    Math.floor(Math.random() * 100000);
+
+  let termine = false;
+  const script = document.createElement("script");
+  let timeout;
+
+  window[nomCallback] = function(data) {
+
+    if (termine) return;
+
+    termine = true;
+
+    delete window[nomCallback];
+
+    if (script.parentNode) {
+      script.parentNode.removeChild(script);
+    }
+
+    clearTimeout(timeout);
+
+    callback(data);
+  };
+
+
+  const params =
+    new URLSearchParams(parametres);
+
+  params.set("callback", nomCallback);
+
+  script.src =
+    APP_URL + "?" + params.toString();
+
+
+  script.onerror = function() {
+
+    if (termine) return;
+
+    termine = true;
+
+    delete window[nomCallback];
+
+    if (script.parentNode) {
+      script.parentNode.removeChild(script);
+    }
+
+    clearTimeout(timeout);
+
+    callback({
+      status: "ERROR",
+      message: "Impossible de contacter le serveur"
+    });
+  };
+
+
+  document.body.appendChild(script);
+
+
+  timeout = setTimeout(function() {
+
+    if (termine) return;
+
+    termine = true;
+
+    delete window[nomCallback];
+
+    if (script.parentNode) {
+      script.parentNode.removeChild(script);
+    }
+
+    callback({
+      status: "ERROR",
+      message: "Le serveur ne répond pas"
+    });
+
+  }, 15000);
+
+}
+
+
+// =====================================================
+// EXTRACTION DE L'IDENTIFIANT DU QR
+// =====================================================
+
+function trouverId(texte) {
+
+  texte =
+    String(texte || "").trim();
+
+  if (/^CCA\d+$/i.test(texte)) {
+    return texte.toUpperCase();
+  }
+
+  try {
+    const url = new URL(texte);
+    const id = url.searchParams.get("id");
+
+    if (
+      id &&
+      /^CCA\d+$/i.test(id)
+    ) {
+      return id.toUpperCase();
+    }
+
+  }
+  catch(e) {}
+
+  return null;
+}
+
+
+// =====================================================
+// QR DÉTECTÉ
+// =====================================================
+
+function qrDetecte(texte) {
+
+  if (scanEnCours) return;
+
+  const id = trouverId(texte);
+
+  if (!id) {
+
+    document.getElementById(
+      "scannerResult"
+    ).innerHTML =
+      '<span class="error">QR code non reconnu</span>';
+
+    return;
+  }
+
+  scanEnCours = true;
+
+  document.getElementById(
+    "scannerResult"
+  ).innerHTML =
+    '<span class="ok">Membre : ' +
+    id +
+    '</span>';
+
+  arreterScanner()
+    .then(function() {
+      rechercherMembre(id);
+    });
+
+}
+
+
+// =====================================================
+// RECHERCHE DU MEMBRE
+// =====================================================
+
+function rechercherMembre(id) {
+
+  appelerApi(
+    {
+      api: "getMember",
+      id: id
+    },
+
+    function(resultat) {
+
+      if (
+        !resultat ||
+        resultat.status !== "OK"
+      ) {
+
+        document.getElementById(
+          "scannerResult"
+        ).innerHTML =
+          '<span class="error">' +
+          (
+            resultat &&
+            resultat.message
+              ? resultat.message
+              : "Membre inconnu"
+          ) +
+          "</span>";
+
+        scanEnCours = false;
+
+        setTimeout(
+          demarrerScanner,
+          2000
+        );
+
+        return;
+      }
+
+
+      membre = {
+        id: resultat.id,
+        nom: resultat.nom,
+        solde: Number(resultat.solde)
+      };
+
+      panier = [];
+
+      afficherPaiement();
+
+    }
+  );
+
+}
+
+
+// =====================================================
+// AFFICHAGE DU PAIEMENT
+// =====================================================
+
+function afficherPaiement() {
+
+  document.getElementById(
+    "scannerPage"
+  ).style.display = "none";
+
+  document.getElementById(
+    "paymentPage"
+  ).style.display = "block";
+
+
+  document.getElementById(
+    "memberName"
+  ).textContent =
+    membre.nom;
+
+
+  document.getElementById(
+    "memberId"
+  ).textContent =
+    "Membre n° " + membre.id;
+
+
+  document.getElementById(
+    "memberBalance"
+  ).textContent =
+    euro(membre.solde);
+
+
+  document.getElementById(
+    "paymentMessage"
+  ).textContent = "";
+
+
+  afficherPanier();
+
+}
+
+
+// =====================================================
+// AJOUT PRODUIT
+// =====================================================
+
+function ajouterProduit(produit, prix) {
+
+  const existant =
+    panier.find(function(item) {
+      return item.produit === produit;
+    });
+
+  if (existant) {
+    existant.quantite++;
+  }
+  else {
+    panier.push({
+      produit: produit,
+      prix: prix,
+      quantite: 1
+    });
+  }
+
+  afficherPanier();
+
+}
+
+
+// =====================================================
+// RETRAIT D'UNE UNITÉ
+// =====================================================
+
+function retirerProduit(produit) {
+
+  const index =
+    panier.findIndex(function(item) {
+      return item.produit === produit;
+    });
+
+  if (index === -1) return;
+
+  panier[index].quantite--;
+
+  if (panier[index].quantite <= 0) {
+    panier.splice(index, 1);
+  }
+
+  afficherPanier();
+
+}
+
+
+// =====================================================
+// VIDER LE PANIER
+// =====================================================
+
+function viderPanier() {
+
+  panier = [];
+
+  afficherPanier();
+
+}
+
+
+// =====================================================
+// CALCUL TOTAL
+// =====================================================
+
+function calculerTotal() {
+
+  let total = 0;
+
+  panier.forEach(function(item) {
+    total +=
+      item.prix *
+      item.quantite;
+  });
+
+  return Math.round(
+    total * 100
+  ) / 100;
+}
+
+
+// =====================================================
+// AFFICHAGE PANIER
+// =====================================================
+
+function afficherPanier() {
+
+  const contenu =
+    document.getElementById(
+      "cartContent"
+    );
+
+  const totalElement =
+    document.getElementById(
+      "cartTotal"
+    );
+
+  const bouton =
+    document.getElementById(
+      "payButton"
+    );
+
+
+  if (panier.length === 0) {
+
+    contenu.innerHTML =
+      '<div class="cart-empty">Aucun article</div>';
+
+    totalElement.textContent =
+      "0,00 €";
+
+    bouton.disabled = true;
+
+    return;
+  }
+
+
+  let total = 0;
+  let html = "";
+
+
+  panier.forEach(function(item) {
+
+    const montant =
+      item.prix *
+      item.quantite;
+
+    total += montant;
+
+    const produitEncode =
+      item.produit
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'");
+
+
+    html +=
+      '<div class="cartLine">' +
+
+        '<div class="cartName">' +
+          item.produit +
+        '</div>' +
+
+        '<button class="qty-btn" ' +
+          'onclick="retirerProduit(\'' +
+          produitEncode +
+          '\')">−</button>' +
+
+        '<div class="cartQty">' +
+          item.quantite +
+        '</div>' +
+
+        '<div class="cartPrice">' +
+          euro(montant) +
+        '</div>' +
+
+        '<button class="remove" ' +
+          'onclick="retirerProduit(\'' +
+          produitEncode +
+          '\')">×</button>' +
+
+      '</div>';
+
+  });
+
+
+  contenu.innerHTML = html;
+
+  totalElement.textContent =
+    euro(total);
+
+  bouton.disabled = false;
+
+}
+
+
+// =====================================================
+// PAIEMENT
+// =====================================================
+
+function payer() {
+
+  if (
+    !membre ||
+    panier.length === 0
+  ) {
+    return;
+  }
+
+
+  const total =
+    calculerTotal();
+
+
+  // Vérification locale pour un retour
+  // immédiat à l'utilisateur.
+  // Le serveur refait de toute façon
+  // la vérification avec son propre solde.
+
+  if (membre.solde < total) {
+
+    document.getElementById(
+      "paymentMessage"
+    ).innerHTML =
+      '<span class="error">Solde insuffisant</span>';
+
+    return;
+  }
+
+
+  const bouton =
+    document.getElementById(
+      "payButton"
+    );
+
+  bouton.disabled = true;
+
+  bouton.textContent =
+    "PAIEMENT EN COURS...";
+
+
+  document.getElementById(
+    "paymentMessage"
+  ).textContent =
+    "Veuillez patienter...";
+
+
+  const items =
+    panier.map(function(item) {
+      return {
+        produit: item.produit,
+        quantite: item.quantite
+      };
+    });
+
+
+  appelerApi(
+    {
+      api: "debit",
+      id: membre.id,
+      items: JSON.stringify(items)
+    },
+
+    function(resultat) {
+
+      if (
+        !resultat ||
+        resultat.status !== "OK"
+      ) {
+
+        bouton.disabled = false;
+
+        bouton.textContent =
+          "✓ VALIDER LE PAIEMENT";
+
+        document.getElementById(
+          "paymentMessage"
+        ).innerHTML =
+          '<span class="error">' +
+          (
+            resultat &&
+            resultat.message
+              ? resultat.message
+              : "Erreur serveur"
+          ) +
+          "</span>";
+
+        return;
+      }
+
+
+      document.getElementById(
+        "memberBalance"
+      ).textContent =
+        euro(resultat.nouveauSolde);
+
+
+      document.getElementById(
+        "paymentMessage"
+      ).innerHTML =
+        '<span class="ok">' +
+        "Paiement accepté : " +
+        euro(resultat.total) +
+        "<br>Nouveau solde : " +
+        euro(resultat.nouveauSolde) +
+        "</span>";
+
+
+      bouton.textContent =
+        "✓ PAIEMENT ACCEPTÉ";
+
+
+      setTimeout(
+        retourScanner,
+        1800
+      );
+
+    }
+  );
+
+}
+
+
+// =====================================================
+// ANNULATION
+// =====================================================
+
+function annulerPaiement() {
+  retourScanner();
+}
+
+
+// =====================================================
+// RETOUR AU SCANNER
+// =====================================================
+
+function retourScanner() {
+
+  membre = null;
+  panier = [];
+
+  document.getElementById(
+    "paymentPage"
+  ).style.display = "none";
+
+  document.getElementById(
+    "scannerPage"
+  ).style.display = "block";
+
+  document.getElementById(
+    "scannerResult"
+  ).innerHTML =
+    "Initialisation de la caméra...";
+
+  const bouton =
+    document.getElementById(
+      "payButton"
+    );
+
+  bouton.disabled = true;
+
+  bouton.textContent =
+    "✓ VALIDER LE PAIEMENT";
+
+  scanEnCours = false;
+  reinitialiserVeille();
+
+  setTimeout(
+    demarrerScanner,
+    300
+  );
+
+}
+
+
+// =====================================================
+// ARRÊT DU SCANNER
+// =====================================================
+
+function arreterScanner() {
+
+  if (!scanner) {
+    return Promise.resolve();
+  }
+
+  if (surveillanceVideo) { clearInterval(surveillanceVideo); surveillanceVideo = null; }
+
+  const ancienScanner =
+    scanner;
+
+  scanner = null;
+
+  return ancienScanner
+    .stop()
+    .then(function() {
+
+      try {
+        ancienScanner.clear();
+      }
+      catch(e) {}
+
+    })
+    .catch(function() {
+
+      try {
+        ancienScanner.clear();
+      }
+      catch(e) {}
+
+    });
+}
+
+
+// =====================================================
+// DÉMARRAGE DU SCANNER
+// =====================================================
+
+function demarrerScanner() {
+
+  if (scanner) return;
+
+  const zone =
+    document.getElementById(
+      "scanner"
+    );
+
+  zone.innerHTML = "";
+
+  scanner =
+    new Html5Qrcode(
+      "scanner"
+    );
+
+  const configuration = {
+    fps: 10,
+    qrbox: {
+      width: 250,
+      height: 250
+    }
+  };
+
+
+  scanner.start(
+    {facingMode:"user"},
+    configuration,
+    qrDetecte,
+    function(){}
+  )
+
+  .then(function() {
+
+    document.getElementById(
+      "scannerResult"
+    ).innerHTML =
+      '<span class="ok">● Caméra avant active</span>';
+    dernierTempsVideo = -1;
+    tempsBlocageVideo = 0;
+    surveillerFluxVideo();
+    reinitialiserVeille();
+
+  })
+
+  .catch(function(erreur) {
+
+    scanner = null;
+
+    document.getElementById(
+      "scannerResult"
+    ).innerHTML =
+      '<span class="error">' +
+      "Impossible d’accéder à la caméra.<br>" +
+      erreur +
+      "</span>";
+
+  });
+
+}
+
+
+// =====================================================
+// DÉMARRAGE DE L'APPLICATION
+// =====================================================
+
+window.addEventListener(
+  "load",
+  function() {
+
+    setTimeout(
+      demarrerScanner,
+      500
+    );
+
+  }
+);
+
+</script>
+
+</body>
+</html>
