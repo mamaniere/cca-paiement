@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CCA Paiement</title>
+<title>CCA Scanner TEST - Veille</title>
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
 <style>
@@ -134,11 +134,10 @@ main{
   border-radius:15px;
   overflow:hidden
 }
-  
-#scanner video {
-  transform: scaleX(-1);
-}
-  
+
+#scanner video{transform:scaleX(-1)}
+
+
 #scannerResult{
   margin:14px;
   font-size:17px
@@ -681,6 +680,12 @@ main{
 
 </main>
 
+<div id="veille" style="position:fixed;inset:0;background:#163D32;color:#fff;z-index:99999;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px;">
+  <img src="Logo de billard vintage CCA Lyon.png" alt="CCA Lyon" style="width:min(75vw,320px);max-height:55vh;object-fit:contain;border-radius:20px;margin-bottom:25px;">
+  <div style="font-size:28px;font-weight:bold;letter-spacing:1px;color:#F5F1E8;">CERCLE DES CHEFS D'ATELIER</div>
+  <div style="font-size:22px;margin-top:20px;color:#F5F1E8;">Touchez l'écran pour commencer</div>
+</div>
+</div>
 
 <script>
 
@@ -691,6 +696,67 @@ let scanner = null;
 let scanEnCours = false;
 let membre = null;
 let panier = [];
+
+// Veille de test : 2 minutes d'inactivité
+const DELAI_VEILLE = 30000;
+let minuterieVeille = null;
+let surveillanceVideo = null;
+let dernierTempsVideo = -1;
+let tempsBlocageVideo = 0;
+let repriseEnCours = false;
+
+function reinitialiserVeille(){
+  if (minuterieVeille) clearTimeout(minuterieVeille);
+  if (document.getElementById("veille").style.display !== "none") return;
+  minuterieVeille = setTimeout(entrerEnVeille, DELAI_VEILLE);
+}
+
+function entrerEnVeille(){
+  if (document.getElementById("paymentPage").style.display === "block") return;
+  arreterScanner().then(function(){
+    document.getElementById("veille").style.display = "flex";
+  });
+}
+
+function reveillerScanner(){
+  document.getElementById("veille").style.display = "none";
+  document.getElementById("scannerResult").innerHTML = "Réactivation de la caméra...";
+  scanEnCours = false;
+  demarrerScanner();
+  reinitialiserVeille();
+}
+
+function surveillerFluxVideo(){
+  if (surveillanceVideo) clearInterval(surveillanceVideo);
+  surveillanceVideo = setInterval(function(){
+    if (!scanner || document.hidden || document.getElementById("veille").style.display !== "none") return;
+    const video = document.querySelector("#scanner video");
+    if (!video || video.readyState < 2) return;
+    if (video.currentTime === dernierTempsVideo){
+      tempsBlocageVideo++;
+    } else {
+      dernierTempsVideo = video.currentTime;
+      tempsBlocageVideo = 0;
+    }
+    if (tempsBlocageVideo >= 8 && !repriseEnCours){
+      repriseEnCours = true;
+      document.getElementById("scannerResult").innerHTML = '<span class="error">Caméra bloquée : redémarrage...</span>';
+      arreterScanner().then(function(){
+        setTimeout(function(){demarrerScanner(); repriseEnCours=false;},1000);
+      });
+      tempsBlocageVideo = 0;
+    }
+  },1000);
+}
+
+["touchstart","click","keydown"].forEach(function(evenement){
+  document.addEventListener(evenement,function(){
+    if (document.getElementById("veille").style.display === "none") reinitialiserVeille();
+  },{passive:true});
+});
+
+document.getElementById("veille").addEventListener("click",reveillerScanner);
+document.getElementById("veille").addEventListener("touchstart",function(e){e.preventDefault();reveillerScanner();},{passive:false});
 
 
 // =====================================================
@@ -1309,6 +1375,7 @@ function retourScanner() {
     "✓ VALIDER LE PAIEMENT";
 
   scanEnCours = false;
+  reinitialiserVeille();
 
   setTimeout(
     demarrerScanner,
@@ -1327,6 +1394,8 @@ function arreterScanner() {
   if (!scanner) {
     return Promise.resolve();
   }
+
+  if (surveillanceVideo) { clearInterval(surveillanceVideo); surveillanceVideo = null; }
 
   const ancienScanner =
     scanner;
@@ -1396,6 +1465,10 @@ function demarrerScanner() {
       "scannerResult"
     ).innerHTML =
       '<span class="ok">● Caméra avant active</span>';
+    dernierTempsVideo = -1;
+    tempsBlocageVideo = 0;
+    surveillerFluxVideo();
+    reinitialiserVeille();
 
   })
 
