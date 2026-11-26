@@ -1360,6 +1360,9 @@ function annulerPaiement() {
 // =====================================================
 
 function retourScanner() {
+  
+    if (minuteriePaiement) clearTimeout(minuteriePaiement);
+  minuteriePaiement = null;
 
   membre = null;
   panier = [];
