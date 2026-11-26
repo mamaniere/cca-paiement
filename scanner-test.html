@@ -699,6 +699,11 @@ let panier = [];
 
   let minuteriePaiement = null;
 const DELAI_PAIEMENT = 10000;
+
+function reinitialiserMinuteriePaiement() {
+  if (minuteriePaiement) clearTimeout(minuteriePaiement);
+  minuteriePaiement = setTimeout(retourScanner, DELAI_PAIEMENT);
+}
   
 // Veille de test : 2 minutes d'inactivité
 const DELAI_VEILLE = 30000;
