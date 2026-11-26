@@ -763,6 +763,11 @@ function surveillerFluxVideo(){
   },{passive:true});
 });
 
+  document.getElementById("paymentPage").addEventListener("click", function(){
+  if (document.getElementById("paymentPage").style.display === "block") {
+    reinitialiserMinuteriePaiement();
+  }
+});
 document.getElementById("veille").addEventListener("click",reveillerScanner);
 document.getElementById("veille").addEventListener("touchstart",function(e){e.preventDefault();reveillerScanner();},{passive:false});
 
